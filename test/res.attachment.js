@@ -7,7 +7,7 @@ describe('res', function(){
     it('should Content-Disposition to attachment', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.attachment().send('foo');
       });
 
@@ -21,7 +21,7 @@ describe('res', function(){
     it('should add the filename param', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.attachment('/path/to/image.png');
         res.send('foo');
       });
@@ -34,7 +34,7 @@ describe('res', function(){
     it('should set the Content-Type', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.attachment('/path/to/image.png');
         res.send(new Buffer(4));
       });
@@ -49,7 +49,7 @@ describe('res', function(){
     it('should add the filename and filename* params', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.attachment('/locales/日本語.txt');
         res.send('japanese');
       });
@@ -63,7 +63,7 @@ describe('res', function(){
     it('should set the Content-Type', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.attachment('/locales/日本語.txt');
         res.send('japanese');
       });

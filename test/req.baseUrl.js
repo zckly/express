@@ -2,13 +2,13 @@
 var express = require('..')
 var request = require('supertest')
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.baseUrl', function(){
     it('should be empty for top-level route', function(done){
       var app = express()
 
-      app.get('/:a', function(req, res){
-        res.end(req.baseUrl)
+      app.get('/:a', function(shreq, res){
+        res.end(shreq.baseUrl)
       })
 
       request(app)
@@ -20,8 +20,8 @@ describe('req', function(){
       var app = express()
       var sub = express.Router()
 
-      sub.get('/:b', function(req, res){
-        res.end(req.baseUrl)
+      sub.get('/:b', function(shreq, res){
+        res.end(shreq.baseUrl)
       })
       app.use('/:a', sub)
 
@@ -36,8 +36,8 @@ describe('req', function(){
       var sub2 = express.Router()
       var sub3 = express.Router()
 
-      sub3.get('/:d', function(req, res){
-        res.end(req.baseUrl)
+      sub3.get('/:d', function(shreq, res){
+        res.end(shreq.baseUrl)
       })
       sub2.use('/:c', sub3)
       sub1.use('/:b', sub2)
@@ -55,27 +55,27 @@ describe('req', function(){
       var sub2 = express.Router()
       var sub3 = express.Router()
 
-      sub3.get('/:d', function(req, res, next){
-        urls.push('0@' + req.baseUrl)
+      sub3.get('/:d', function(shreq, res, next){
+        urls.push('0@' + shreq.baseUrl)
         next()
       })
       sub2.use('/:c', sub3)
-      sub1.use('/', function(req, res, next){
-        urls.push('1@' + req.baseUrl)
+      sub1.use('/', function(shreq, res, next){
+        urls.push('1@' + shreq.baseUrl)
         next()
       })
       sub1.use('/bar', sub2)
-      sub1.use('/bar', function(req, res, next){
-        urls.push('2@' + req.baseUrl)
+      sub1.use('/bar', function(shreq, res, next){
+        urls.push('2@' + shreq.baseUrl)
         next()
       })
-      app.use(function(req, res, next){
-        urls.push('3@' + req.baseUrl)
+      app.use(function(shreq, res, next){
+        urls.push('3@' + shreq.baseUrl)
         next()
       })
       app.use('/:a', sub1)
-      app.use(function(req, res, next){
-        urls.push('4@' + req.baseUrl)
+      app.use(function(shreq, res, next){
+        urls.push('4@' + shreq.baseUrl)
         res.end(urls.join(','))
       })
 

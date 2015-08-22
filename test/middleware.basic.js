@@ -8,22 +8,22 @@ describe('middleware', function(){
       var app = express()
         , calls = [];
 
-      app.use(function(req, res, next){
+      app.use(function(shreq, res, next){
         calls.push('one');
         next();
       });
 
-      app.use(function(req, res, next){
+      app.use(function(shreq, res, next){
         calls.push('two');
         next();
       });
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         var buf = '';
         res.setHeader('Content-Type', 'application/json');
-        req.setEncoding('utf8');
-        req.on('data', function(chunk){ buf += chunk });
-        req.on('end', function(){
+        shreq.setEncoding('utf8');
+        shreq.on('data', function(chunk){ buf += chunk });
+        shreq.on('end', function(){
           res.end(buf);
         });
       });

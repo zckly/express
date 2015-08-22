@@ -8,7 +8,7 @@ describe('res.vary()', function(){
     it('should not set Vary', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.vary();
         res.end();
       });
@@ -24,7 +24,7 @@ describe('res.vary()', function(){
     it('should not set Vary', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.vary([]);
         res.end();
       });
@@ -40,7 +40,7 @@ describe('res.vary()', function(){
     it('should set the values', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.vary(['Accept', 'Accept-Language', 'Accept-Encoding']);
         res.end();
       });
@@ -56,7 +56,7 @@ describe('res.vary()', function(){
     it('should set the value', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.vary('Accept');
         res.end();
       });
@@ -72,7 +72,7 @@ describe('res.vary()', function(){
     it('should not add it again', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.vary('Accept');
         res.vary('Accept-Encoding');
         res.vary('Accept-Encoding');

@@ -2,13 +2,13 @@
 var express = require('../')
   , request = require('supertest');
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.path', function(){
     it('should return the parsed pathname', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        res.end(req.path);
+      app.use(function(shreq, res){
+        res.end(shreq.path);
       });
 
       request(app)

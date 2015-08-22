@@ -3,19 +3,19 @@ var express = require('../')
   , request = require('supertest')
   , cookieParser = require('cookie-parser')
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.signedCookies', function(){
     it('should return a signed JSON cookie', function(done){
       var app = express();
 
       app.use(cookieParser('secret'));
 
-      app.use(function(req, res){
-        if ('/set' == req.path) {
+      app.use(function(shreq, res){
+        if ('/set' == shreq.path) {
           res.cookie('obj', { foo: 'bar' }, { signed: true });
           res.end();
         } else {
-          res.send(req.signedCookies);
+          res.send(shreq.signedCookies);
         }
       });
 

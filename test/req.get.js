@@ -3,14 +3,14 @@ var express = require('../')
   , request = require('supertest')
   , assert = require('assert');
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.get(field)', function(){
     it('should return the header field value', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        assert(req.get('Something-Else') === undefined);
-        res.end(req.get('Content-Type'));
+      app.use(function(shreq, res){
+        assert(shreq.get('Something-Else') === undefined);
+        res.end(shreq.get('Content-Type'));
       });
 
       request(app)
@@ -22,8 +22,8 @@ describe('req', function(){
     it('should special-case Referer', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        res.end(req.get('Referer'));
+      app.use(function(shreq, res){
+        res.end(shreq.get('Referer'));
       });
 
       request(app)

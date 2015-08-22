@@ -4,7 +4,7 @@ var users = require('./db');
 
 // so either you can deal with different types of formatting
 // for expected response in index.js
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   res.format({
     html: function(){
       res.send('<ul>' + users.map(function(user){
@@ -30,7 +30,7 @@ app.get('/', function(req, res){
 
 function format(path) {
   var obj = require(path);
-  return function(req, res){
+  return function(shreq, res){
     res.format(obj);
   };
 }

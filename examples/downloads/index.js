@@ -5,7 +5,7 @@
 var express = require('../../');
 var app = module.exports = express();
 
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   res.send('<ul>'
     + '<li>Download <a href="/files/amazing.txt">amazing.txt</a>.</li>'
     + '<li>Download <a href="/files/missing.txt">missing.txt</a>.</li>'
@@ -13,10 +13,10 @@ app.get('/', function(req, res){
     + '</ul>');
 });
 
-// /files/* is accessed via req.params[0]
+// /files/* is accessed via shreq.params[0]
 // but here we name it :file
-app.get('/files/:file(*)', function(req, res, next){
-  var file = req.params.file;
+app.get('/files/:file(*)', function(shreq, res, next){
+  var file = shreq.params.file;
   var path = __dirname + '/files/' + file;
 
   res.download(path, function(err){

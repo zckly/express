@@ -22,7 +22,7 @@ describe('Router', function(){
     var router = new Router();
     var another = new Router();
 
-    another.get('/bar', function(req, res){
+    another.get('/bar', function(shreq, res){
       res.end();
     });
     router.use('/foo', another);
@@ -34,8 +34,8 @@ describe('Router', function(){
     var router = new Router();
     var another = new Router();
 
-    another.get('/:bar', function(req, res){
-      req.params.bar.should.equal('route');
+    another.get('/:bar', function(shreq, res){
+      shreq.params.bar.should.equal('route');
       res.end();
     });
     router.use('/:foo', another);
@@ -46,7 +46,7 @@ describe('Router', function(){
   it('should handle blank URL', function(done){
     var router = new Router();
 
-    router.use(function (req, res) {
+    router.use(function (shreq, res) {
       false.should.be.true;
     });
 
@@ -54,14 +54,14 @@ describe('Router', function(){
   });
 
   it('should not stack overflow with many registered routes', function(done){
-    var handler = function(req, res){ res.end(new Error('wrong handler')) };
+    var handler = function(shreq, res){ res.end(new Error('wrong handler')) };
     var router = new Router();
 
     for (var i = 0; i < 6000; i++) {
       router.get('/thing' + i, handler)
     }
 
-    router.get('/', function (req, res) {
+    router.get('/', function (shreq, res) {
       res.end();
     });
 
@@ -72,7 +72,7 @@ describe('Router', function(){
     it('should dispatch', function(done){
       var router = new Router();
 
-      router.route('/foo').get(function(req, res){
+      router.route('/foo').get(function(shreq, res){
         res.send('foo');
       });
 
@@ -118,19 +118,19 @@ describe('Router', function(){
     it('should skip non error middleware', function(done){
       var router = new Router();
 
-      router.get('/foo', function(req, res, next){
+      router.get('/foo', function(shreq, res, next){
         next(new Error('foo'));
       });
 
-      router.get('/bar', function(req, res, next){
+      router.get('/bar', function(shreq, res, next){
         next(new Error('bar'));
       });
 
-      router.use(function(req, res, next){
+      router.use(function(shreq, res, next){
         assert(false);
       });
 
-      router.use(function(err, req, res, next){
+      router.use(function(err, shreq, res, next){
         assert.equal(err.message, 'foo');
         done();
       });
@@ -141,15 +141,15 @@ describe('Router', function(){
     it('should handle throwing inside routes with params', function(done) {
       var router = new Router();
 
-      router.get('/foo/:id', function(req, res, next){
+      router.get('/foo/:id', function(shreq, res, next){
         throw new Error('foo');
       });
 
-      router.use(function(req, res, next){
+      router.use(function(shreq, res, next){
         assert(false);
       });
 
-      router.use(function(err, req, res, next){
+      router.use(function(err, shreq, res, next){
         assert.equal(err.message, 'foo');
         done();
       });
@@ -160,18 +160,18 @@ describe('Router', function(){
     it('should handle throwing in handler after async param', function(done) {
       var router = new Router();
 
-      router.param('user', function(req, res, next, val){
+      router.param('user', function(shreq, res, next, val){
         process.nextTick(function(){
-          req.user = val;
+          shreq.user = val;
           next();
         });
       });
 
-      router.use('/:user', function(req, res, next){
+      router.use('/:user', function(shreq, res, next){
         throw new Error('oh no!');
       });
 
-      router.use(function(err, req, res, next){
+      router.use(function(err, shreq, res, next){
         assert.equal(err.message, 'oh no!');
         done();
       });
@@ -182,15 +182,15 @@ describe('Router', function(){
     it('should handle throwing inside error handlers', function(done) {
       var router = new Router();
 
-      router.use(function(req, res, next){
+      router.use(function(shreq, res, next){
         throw new Error('boom!');
       });
 
-      router.use(function(err, req, res, next){
+      router.use(function(err, shreq, res, next){
         throw new Error('oops');
       });
 
-      router.use(function(err, req, res, next){
+      router.use(function(err, shreq, res, next){
         assert.equal(err.message, 'oops');
         done();
       });
@@ -204,9 +204,9 @@ describe('Router', function(){
       var request = { hit: 0, url: 'http://example.com/foo', method: 'GET' };
       var router = new Router();
 
-      router.use(function (req, res, next) {
-        assert.equal(req.hit++, 0);
-        assert.equal(req.url, 'http://example.com/foo');
+      router.use(function (shreq, res, next) {
+        assert.equal(shreq.hit++, 0);
+        assert.equal(shreq.url, 'http://example.com/foo');
         next();
       });
 
@@ -221,9 +221,9 @@ describe('Router', function(){
       var request = { hit: 0, url: '/proxy?url=http://example.com/blog/post/1', method: 'GET' };
       var router = new Router();
 
-      router.use('/proxy', function (req, res, next) {
-        assert.equal(req.hit++, 0);
-        assert.equal(req.url, '/?url=http://example.com/blog/post/1');
+      router.use('/proxy', function (shreq, res, next) {
+        assert.equal(shreq.hit++, 0);
+        assert.equal(shreq.url, '/?url=http://example.com/blog/post/1');
         next();
       });
 
@@ -238,9 +238,9 @@ describe('Router', function(){
       var request = { hit: 0, url: '/proxy/http://example.com/blog/post/1', method: 'GET' };
       var router = new Router();
 
-      router.use('/proxy', function (req, res, next) {
-        assert.equal(req.hit++, 0);
-        assert.equal(req.url, '/http://example.com/blog/post/1');
+      router.use('/proxy', function (shreq, res, next) {
+        assert.equal(shreq.hit++, 0);
+        assert.equal(shreq.url, '/http://example.com/blog/post/1');
         next();
       });
 
@@ -251,13 +251,13 @@ describe('Router', function(){
       });
     });
 
-    it('should adjust FQDN req.url', function (done) {
+    it('should adjust FQDN shreq.url', function (done) {
       var request = { hit: 0, url: 'http://example.com/blog/post/1', method: 'GET' };
       var router = new Router();
 
-      router.use('/blog', function (req, res, next) {
-        assert.equal(req.hit++, 0);
-        assert.equal(req.url, 'http://example.com/post/1');
+      router.use('/blog', function (shreq, res, next) {
+        assert.equal(shreq.hit++, 0);
+        assert.equal(shreq.url, 'http://example.com/post/1');
         next();
       });
 
@@ -268,19 +268,19 @@ describe('Router', function(){
       });
     });
 
-    it('should adjust FQDN req.url with multiple handlers', function (done) {
+    it('should adjust FQDN shreq.url with multiple handlers', function (done) {
       var request = { hit: 0, url: 'http://example.com/blog/post/1', method: 'GET' };
       var router = new Router();
 
-      router.use(function (req, res, next) {
-        assert.equal(req.hit++, 0);
-        assert.equal(req.url, 'http://example.com/blog/post/1');
+      router.use(function (shreq, res, next) {
+        assert.equal(shreq.hit++, 0);
+        assert.equal(shreq.url, 'http://example.com/blog/post/1');
         next();
       });
 
-      router.use('/blog', function (req, res, next) {
-        assert.equal(req.hit++, 1);
-        assert.equal(req.url, 'http://example.com/post/1');
+      router.use('/blog', function (shreq, res, next) {
+        assert.equal(shreq.hit++, 1);
+        assert.equal(shreq.url, 'http://example.com/post/1');
         next();
       });
 
@@ -291,25 +291,25 @@ describe('Router', function(){
       });
     });
 
-    it('should adjust FQDN req.url with multiple routed handlers', function (done) {
+    it('should adjust FQDN shreq.url with multiple routed handlers', function (done) {
       var request = { hit: 0, url: 'http://example.com/blog/post/1', method: 'GET' };
       var router = new Router();
 
-      router.use('/blog', function (req, res, next) {
-        assert.equal(req.hit++, 0);
-        assert.equal(req.url, 'http://example.com/post/1');
+      router.use('/blog', function (shreq, res, next) {
+        assert.equal(shreq.hit++, 0);
+        assert.equal(shreq.url, 'http://example.com/post/1');
         next();
       });
 
-      router.use('/blog', function (req, res, next) {
-        assert.equal(req.hit++, 1);
-        assert.equal(req.url, 'http://example.com/post/1');
+      router.use('/blog', function (shreq, res, next) {
+        assert.equal(shreq.hit++, 1);
+        assert.equal(shreq.url, 'http://example.com/post/1');
         next();
       });
 
-      router.use(function (req, res, next) {
-        assert.equal(req.hit++, 2);
-        assert.equal(req.url, 'http://example.com/blog/post/1');
+      router.use(function (shreq, res, next) {
+        assert.equal(shreq.hit++, 2);
+        assert.equal(shreq.url, 'http://example.com/blog/post/1');
         next();
       });
 
@@ -357,17 +357,17 @@ describe('Router', function(){
       var count = 0;
       var router = new Router();
 
-      function fn1(req, res, next){
+      function fn1(shreq, res, next){
         assert.equal(++count, 1);
         next();
       }
 
-      function fn2(req, res, next){
+      function fn2(shreq, res, next){
         assert.equal(++count, 2);
         next();
       }
 
-      router.use([fn1, fn2], function(req, res){
+      router.use([fn1, fn2], function(shreq, res){
         assert.equal(++count, 3);
         done();
       });
@@ -380,13 +380,13 @@ describe('Router', function(){
     it('should call param function when routing VERBS', function(done) {
       var router = new Router();
 
-      router.param('id', function(req, res, next, id) {
+      router.param('id', function(shreq, res, next, id) {
         assert.equal(id, '123');
         next();
       });
 
-      router.get('/foo/:id/bar', function(req, res, next) {
-        assert.equal(req.params.id, '123');
+      router.get('/foo/:id/bar', function(shreq, res, next) {
+        assert.equal(shreq.params.id, '123');
         next();
       });
 
@@ -396,14 +396,14 @@ describe('Router', function(){
     it('should call param function when routing middleware', function(done) {
       var router = new Router();
 
-      router.param('id', function(req, res, next, id) {
+      router.param('id', function(shreq, res, next, id) {
         assert.equal(id, '123');
         next();
       });
 
-      router.use('/foo/:id/bar', function(req, res, next) {
-        assert.equal(req.params.id, '123');
-        assert.equal(req.url, '/baz');
+      router.use('/foo/:id/bar', function(shreq, res, next) {
+        assert.equal(shreq.params.id, '123');
+        assert.equal(shreq.url, '/baz');
         next();
       });
 
@@ -412,54 +412,54 @@ describe('Router', function(){
 
     it('should only call once per request', function(done) {
       var count = 0;
-      var req = { url: '/foo/bob/bar', method: 'get' };
+      var shreq = { url: '/foo/bob/bar', method: 'get' };
       var router = new Router();
       var sub = new Router();
 
-      sub.get('/bar', function(req, res, next) {
+      sub.get('/bar', function(shreq, res, next) {
         next();
       });
 
-      router.param('user', function(req, res, next, user) {
+      router.param('user', function(shreq, res, next, user) {
         count++;
-        req.user = user;
+        shreq.user = user;
         next();
       });
 
       router.use('/foo/:user/', new Router());
       router.use('/foo/:user/', sub);
 
-      router.handle(req, {}, function(err) {
+      router.handle(shreq, {}, function(err) {
         if (err) return done(err);
         assert.equal(count, 1);
-        assert.equal(req.user, 'bob');
+        assert.equal(shreq.user, 'bob');
         done();
       });
     });
 
     it('should call when values differ', function(done) {
       var count = 0;
-      var req = { url: '/foo/bob/bar', method: 'get' };
+      var shreq = { url: '/foo/bob/bar', method: 'get' };
       var router = new Router();
       var sub = new Router();
 
-      sub.get('/bar', function(req, res, next) {
+      sub.get('/bar', function(shreq, res, next) {
         next();
       });
 
-      router.param('user', function(req, res, next, user) {
+      router.param('user', function(shreq, res, next, user) {
         count++;
-        req.user = user;
+        shreq.user = user;
         next();
       });
 
       router.use('/foo/:user/', new Router());
       router.use('/:user/bob/', sub);
 
-      router.handle(req, {}, function(err) {
+      router.handle(shreq, {}, function(err) {
         if (err) return done(err);
         assert.equal(count, 2);
-        assert.equal(req.user, 'foo');
+        assert.equal(shreq.user, 'foo');
         done();
       });
     });
@@ -474,13 +474,13 @@ describe('Router', function(){
 
       done = after(2, done);
 
-      sub.get('/bar', function(req, res, next) {
+      sub.get('/bar', function(shreq, res, next) {
         next();
       });
 
-      router.param('ms', function(req, res, next, ms) {
+      router.param('ms', function(shreq, res, next, ms) {
         ms = parseInt(ms, 10);
-        req.ms = ms;
+        shreq.ms = ms;
         setTimeout(next, ms);
       });
 

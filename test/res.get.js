@@ -7,7 +7,7 @@ describe('res', function(){
     it('should get the response header field', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.setHeader('Content-Type', 'text/x-foo');
         res.send(res.get('Content-Type'));
       });

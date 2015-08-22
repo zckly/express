@@ -2,13 +2,13 @@
 var express = require('../')
   , request = require('supertest');
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.xhr', function(){
     it('should return true when X-Requested-With is xmlhttprequest', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        req.xhr.should.be.true;
+      app.use(function(shreq, res){
+        shreq.xhr.should.be.true;
         res.end();
       });
 
@@ -24,8 +24,8 @@ describe('req', function(){
     it('should case-insensitive', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        req.xhr.should.be.true;
+      app.use(function(shreq, res){
+        shreq.xhr.should.be.true;
         res.end();
       });
 
@@ -41,8 +41,8 @@ describe('req', function(){
     it('should return false otherwise', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        req.xhr.should.be.false;
+      app.use(function(shreq, res){
+        shreq.xhr.should.be.false;
         res.end();
       });
 
@@ -58,8 +58,8 @@ describe('req', function(){
     it('should return false when not present', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        req.xhr.should.be.false;
+      app.use(function(shreq, res){
+        shreq.xhr.should.be.false;
         res.end();
       });
 

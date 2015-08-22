@@ -5,14 +5,14 @@ var users = [
   { name: 'Tobi', email: 'tobi@vision-media.ca' }
 ];
 
-exports.list = function(req, res){
+exports.list = function(shreq, res){
   res.render('users', { title: 'Users', users: users });
 };
 
-exports.load = function(req, res, next){
-  var id = req.params.id;
-  req.user = users[id];
-  if (req.user) {
+exports.load = function(shreq, res, next){
+  var id = shreq.params.id;
+  shreq.user = users[id];
+  if (shreq.user) {
     next();
   } else {
     var err = new Error('cannot find user ' + id);
@@ -21,25 +21,25 @@ exports.load = function(req, res, next){
   }
 };
 
-exports.view = function(req, res){
+exports.view = function(shreq, res){
   res.render('users/view', {
-    title: 'Viewing user ' + req.user.name,
-    user: req.user
+    title: 'Viewing user ' + shreq.user.name,
+    user: shreq.user
   });
 };
 
-exports.edit = function(req, res){
+exports.edit = function(shreq, res){
   res.render('users/edit', {
-    title: 'Editing user ' + req.user.name,
-    user: req.user
+    title: 'Editing user ' + shreq.user.name,
+    user: shreq.user
   });
 };
 
-exports.update = function(req, res){
+exports.update = function(shreq, res){
   // Normally you would handle all kinds of
   // validation and save back to the db
-  var user = req.body.user;
-  req.user.name = user.name;
-  req.user.email = user.email;
+  var user = shreq.body.user;
+  shreq.user.name = user.name;
+  shreq.user.email = user.email;
   res.redirect('back');
 };

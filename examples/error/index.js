@@ -10,12 +10,12 @@ var test = app.get('env') == 'test';
 if (!test) app.use(logger('dev'));
 
 // error handling middleware have an arity of 4
-// instead of the typical (req, res, next),
+// instead of the typical (shreq, res, next),
 // otherwise they behave exactly like regular
 // middleware, you may have several of them,
 // in different orders etc.
 
-function error(err, req, res, next) {
+function error(err, shreq, res, next) {
   // log it
   if (!test) console.error(err.stack);
 
@@ -24,12 +24,12 @@ function error(err, req, res, next) {
   res.send('Internal Server Error');
 }
 
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   // Caught and passed down to the errorHandler middleware
   throw new Error('something broke!');
 });
 
-app.get('/next', function(req, res, next){
+app.get('/next', function(shreq, res, next){
   // We can also pass exceptions to next()
   process.nextTick(function(){
     next(new Error('oh no!'));

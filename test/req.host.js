@@ -3,13 +3,13 @@ var express = require('../')
   , request = require('supertest')
   , assert = require('assert');
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.host', function(){
     it('should return the Host when present', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        res.end(req.host);
+      app.use(function(shreq, res){
+        res.end(shreq.host);
       });
 
       request(app)
@@ -21,8 +21,8 @@ describe('req', function(){
     it('should strip port number', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        res.end(req.host);
+      app.use(function(shreq, res){
+        res.end(shreq.host);
       });
 
       request(app)
@@ -34,9 +34,9 @@ describe('req', function(){
     it('should return undefined otherwise', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        req.headers.host = null;
-        res.end(String(req.host));
+      app.use(function(shreq, res){
+        shreq.headers.host = null;
+        res.end(String(shreq.host));
       });
 
       request(app)
@@ -47,8 +47,8 @@ describe('req', function(){
     it('should work with IPv6 Host', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        res.end(req.host);
+      app.use(function(shreq, res){
+        res.end(shreq.host);
       });
 
       request(app)
@@ -60,8 +60,8 @@ describe('req', function(){
     it('should work with IPv6 Host and port', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        res.end(req.host);
+      app.use(function(shreq, res){
+        res.end(shreq.host);
       });
 
       request(app)
@@ -76,8 +76,8 @@ describe('req', function(){
 
         app.enable('trust proxy');
 
-        app.use(function(req, res){
-          res.end(req.host);
+        app.use(function(shreq, res){
+          res.end(shreq.host);
         });
 
         request(app)
@@ -92,8 +92,8 @@ describe('req', function(){
 
         app.set('trust proxy', '10.0.0.1');
 
-        app.use(function(req, res){
-          res.end(req.host);
+        app.use(function(shreq, res){
+          res.end(shreq.host);
         });
 
         request(app)
@@ -108,8 +108,8 @@ describe('req', function(){
 
         app.enable('trust proxy');
 
-        app.use(function(req, res){
-          res.end(req.host);
+        app.use(function(shreq, res){
+          res.end(shreq.host);
         });
 
         request(app)
@@ -124,8 +124,8 @@ describe('req', function(){
 
           app.set('trust proxy', 1);
 
-          app.use(function (req, res) {
-            res.end(req.host);
+          app.use(function (shreq, res) {
+            res.end(shreq.host);
           });
 
           request(app)
@@ -141,8 +141,8 @@ describe('req', function(){
       it('should ignore X-Forwarded-Host', function(done){
         var app = express();
 
-        app.use(function(req, res){
-          res.end(req.host);
+        app.use(function(shreq, res){
+          res.end(shreq.host);
         });
 
         request(app)

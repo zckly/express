@@ -28,14 +28,14 @@ app.set('views', 'strongloop/express');
 // register a new view constructor
 app.set('view', GithubView);
 
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   // rendering a view relative to the repo.
   // app.locals, res.locals, and locals passed
   // work like they normally would
   res.render('examples/markdown/views/index.md', { title: 'Example' });
 });
 
-app.get('/Readme.md', function(req, res){
+app.get('/Readme.md', function(shreq, res){
   // rendering a view from https://github.com/strongloop/express/blob/master/Readme.md
   res.render('Readme.md');
 });

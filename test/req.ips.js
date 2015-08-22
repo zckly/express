@@ -2,7 +2,7 @@
 var express = require('../')
   , request = require('supertest');
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.ips', function(){
     describe('when X-Forwarded-For is present', function(){
       describe('when "trust proxy" is enabled', function(){
@@ -11,8 +11,8 @@ describe('req', function(){
 
           app.enable('trust proxy');
 
-          app.use(function(req, res, next){
-            res.send(req.ips);
+          app.use(function(shreq, res, next){
+            res.send(shreq.ips);
           });
 
           request(app)
@@ -26,8 +26,8 @@ describe('req', function(){
 
           app.set('trust proxy', 2);
 
-          app.use(function(req, res, next){
-            res.send(req.ips);
+          app.use(function(shreq, res, next){
+            res.send(shreq.ips);
           });
 
           request(app)
@@ -41,8 +41,8 @@ describe('req', function(){
         it('should return an empty array', function(done){
           var app = express();
 
-          app.use(function(req, res, next){
-            res.send(req.ips);
+          app.use(function(shreq, res, next){
+            res.send(shreq.ips);
           });
 
           request(app)
@@ -57,8 +57,8 @@ describe('req', function(){
       it('should return []', function(done){
         var app = express();
 
-        app.use(function(req, res, next){
-          res.send(req.ips);
+        app.use(function(shreq, res, next){
+          res.send(shreq.ips);
         });
 
         request(app)

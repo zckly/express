@@ -34,13 +34,13 @@ var users = [
   , new User('aaron', 'aaron.heckmann+github@gmail.com')
 ];
 
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   res.render('users', { users: users });
 });
 
 // change this to a better error handler in your code
 // sending stacktrace to users in production is not good
-app.use(function(err, req, res, next) {
+app.use(function(err, shreq, res, next) {
   res.send(err.stack);
 });
 

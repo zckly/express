@@ -2,7 +2,7 @@
 var express = require('../')
   , request = require('supertest');
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.ip', function(){
     describe('when X-Forwarded-For is present', function(){
       describe('when "trust proxy" is enabled', function(){
@@ -11,8 +11,8 @@ describe('req', function(){
 
           app.enable('trust proxy');
 
-          app.use(function(req, res, next){
-            res.send(req.ip);
+          app.use(function(shreq, res, next){
+            res.send(shreq.ip);
           });
 
           request(app)
@@ -26,8 +26,8 @@ describe('req', function(){
 
           app.set('trust proxy', 2);
 
-          app.use(function(req, res, next){
-            res.send(req.ip);
+          app.use(function(shreq, res, next){
+            res.send(shreq.ip);
           });
 
           request(app)
@@ -43,8 +43,8 @@ describe('req', function(){
           app.set('trust proxy', 2);
           app.use(sub);
 
-          sub.use(function (req, res, next) {
-            res.send(req.ip);
+          sub.use(function (shreq, res, next) {
+            res.send(shreq.ip);
           });
 
           request(app)
@@ -58,8 +58,8 @@ describe('req', function(){
         it('should return the remote address', function(done){
           var app = express();
 
-          app.use(function(req, res, next){
-            res.send(req.ip);
+          app.use(function(shreq, res, next){
+            res.send(shreq.ip);
           });
 
           var test = request(app).get('/')
@@ -75,8 +75,8 @@ describe('req', function(){
 
         app.enable('trust proxy');
 
-        app.use(function(req, res, next){
-          res.send(req.ip);
+        app.use(function(shreq, res, next){
+          res.send(shreq.ip);
         });
 
           var test = request(app).get('/')

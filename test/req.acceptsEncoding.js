@@ -2,14 +2,14 @@
 var express = require('../')
   , request = require('supertest');
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.acceptsEncoding', function(){
     it('should be true if encoding accpeted', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        req.acceptsEncoding('gzip').should.be.ok;
-        req.acceptsEncoding('deflate').should.be.ok;
+      app.use(function(shreq, res){
+        shreq.acceptsEncoding('gzip').should.be.ok;
+        shreq.acceptsEncoding('deflate').should.be.ok;
         res.end();
       });
 
@@ -22,8 +22,8 @@ describe('req', function(){
     it('should be false if encoding not accpeted', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        req.acceptsEncoding('bogus').should.not.be.ok;
+      app.use(function(shreq, res){
+        shreq.acceptsEncoding('bogus').should.not.be.ok;
         res.end();
       });
 

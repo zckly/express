@@ -6,11 +6,11 @@ describe('app', function(){
     it('should not get invoked without error handler on error', function(done) {
       var app = express();
 
-      app.use(function(req, res, next){
+      app.use(function(shreq, res, next){
         next(new Error('boom!'))
       });
 
-      app.get('/bar', function(req, res){
+      app.get('/bar', function(shreq, res){
         res.send('hello, world!');
       });
 
@@ -27,23 +27,23 @@ describe('app', function(){
       var c = false;
       var d = false;
 
-      app.get('/', function(req, res, next){
+      app.get('/', function(shreq, res, next){
         next(new Error('fabricated error'));
-      }, function(req, res, next) {
+      }, function(shreq, res, next) {
         a = true;
         next();
-      }, function(err, req, res, next){
+      }, function(err, shreq, res, next){
         b = true;
         err.message.should.equal('fabricated error');
         next(err);
-      }, function(err, req, res, next){
+      }, function(err, shreq, res, next){
         c = true;
         err.message.should.equal('fabricated error');
         next();
-      }, function(err, req, res, next){
+      }, function(err, shreq, res, next){
         d = true;
         next();
-      }, function(req, res){
+      }, function(shreq, res){
         a.should.be.false;
         b.should.be.true;
         c.should.be.true;

@@ -2,7 +2,7 @@
 var express = require('../')
   , request = require('supertest');
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.query', function(){
     it('should default to {}', function(done){
       var app = createApp();
@@ -87,8 +87,8 @@ describe('req', function(){
         delete app.settings['query parser'];
         delete app.settings['query parser fn'];
 
-        app.use(function (req, res) {
-          res.send(req.query);
+        app.use(function (shreq, res) {
+          res.send(shreq.query);
         });
 
         request(app)
@@ -112,8 +112,8 @@ function createApp(setting) {
     app.set('query parser', setting);
   }
 
-  app.use(function (req, res) {
-    res.send(req.query);
+  app.use(function (shreq, res) {
+    res.send(shreq.query);
   });
 
   return app;

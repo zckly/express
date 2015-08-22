@@ -6,6 +6,6 @@ var posts = [
   { title: 'Foo bar baz', body: 'more foo bar baz' }
 ];
 
-exports.list = function(req, res){
+exports.list = function(shreq, res){
   res.render('posts', { title: 'Posts', posts: posts });
 };

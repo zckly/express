@@ -2,14 +2,14 @@
 var express = require('../')
   , request = require('supertest');
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.subdomains', function(){
     describe('when present', function(){
       it('should return an array', function(done){
         var app = express();
 
-        app.use(function(req, res){
-          res.send(req.subdomains);
+        app.use(function(shreq, res){
+          res.send(shreq.subdomains);
         });
 
         request(app)
@@ -21,8 +21,8 @@ describe('req', function(){
       it('should work with IPv4 address', function(done){
         var app = express();
 
-        app.use(function(req, res){
-          res.send(req.subdomains);
+        app.use(function(shreq, res){
+          res.send(shreq.subdomains);
         });
 
         request(app)
@@ -34,8 +34,8 @@ describe('req', function(){
       it('should work with IPv6 address', function(done){
         var app = express();
 
-        app.use(function(req, res){
-          res.send(req.subdomains);
+        app.use(function(shreq, res){
+          res.send(shreq.subdomains);
         });
 
         request(app)
@@ -49,8 +49,8 @@ describe('req', function(){
       it('should return an empty array', function(done){
         var app = express();
 
-        app.use(function(req, res){
-          res.send(req.subdomains);
+        app.use(function(shreq, res){
+          res.send(shreq.subdomains);
         });
 
         request(app)
@@ -64,9 +64,9 @@ describe('req', function(){
       it('should return an empty array', function(done){
         var app = express();
 
-        app.use(function(req, res){
-          req.headers.host = null;
-          res.send(req.subdomains);
+        app.use(function(shreq, res){
+          shreq.headers.host = null;
+          res.send(shreq.subdomains);
         });
 
         request(app)
@@ -80,8 +80,8 @@ describe('req', function(){
         var app = express();
 
         app.set('trust proxy', true);
-        app.use(function (req, res) {
-          res.send(req.subdomains);
+        app.use(function (shreq, res) {
+          res.send(shreq.subdomains);
         });
 
         request(app)
@@ -97,8 +97,8 @@ describe('req', function(){
           var app = express();
           app.set('subdomain offset', 0);
 
-          app.use(function(req, res){
-            res.send(req.subdomains);
+          app.use(function(shreq, res){
+            res.send(shreq.subdomains);
           });
 
           request(app)
@@ -111,8 +111,8 @@ describe('req', function(){
           var app = express();
           app.set('subdomain offset', 0);
 
-          app.use(function(req, res){
-            res.send(req.subdomains);
+          app.use(function(shreq, res){
+            res.send(shreq.subdomains);
           });
 
           request(app)
@@ -125,8 +125,8 @@ describe('req', function(){
           var app = express();
           app.set('subdomain offset', 0);
 
-          app.use(function(req, res){
-            res.send(req.subdomains);
+          app.use(function(shreq, res){
+            res.send(shreq.subdomains);
           });
 
           request(app)
@@ -141,8 +141,8 @@ describe('req', function(){
           var app = express();
           app.set('subdomain offset', 3);
 
-          app.use(function(req, res){
-            res.send(req.subdomains);
+          app.use(function(shreq, res){
+            res.send(shreq.subdomains);
           });
 
           request(app)
@@ -157,8 +157,8 @@ describe('req', function(){
           var app = express();
           app.set('subdomain offset', 3);
 
-          app.use(function(req, res){
-            res.send(req.subdomains);
+          app.use(function(shreq, res){
+            res.send(shreq.subdomains);
           });
 
           request(app)

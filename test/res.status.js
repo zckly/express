@@ -7,7 +7,7 @@ describe('res', function(){
     it('should set the response .statusCode', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.status(201).end('Created');
       });
 

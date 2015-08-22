@@ -10,16 +10,16 @@ var app = module.exports = express();
 
 app.resource = function(path, obj) {
   this.get(path, obj.index);
-  this.get(path + '/:a..:b.:format?', function(req, res){
-    var a = parseInt(req.params.a, 10);
-    var b = parseInt(req.params.b, 10);
-    var format = req.params.format;
-    obj.range(req, res, a, b, format);
+  this.get(path + '/:a..:b.:format?', function(shreq, res){
+    var a = parseInt(shreq.params.a, 10);
+    var b = parseInt(shreq.params.b, 10);
+    var format = shreq.params.format;
+    obj.range(shreq, res, a, b, format);
   });
   this.get(path + '/:id', obj.show);
-  this.delete(path + '/:id', function(req, res){
-    var id = parseInt(req.params.id, 10);
-    obj.destroy(req, res, id);
+  this.delete(path + '/:id', function(shreq, res){
+    var id = parseInt(shreq.params.id, 10);
+    obj.destroy(shreq, res, id);
   });
 };
 
@@ -37,18 +37,18 @@ var users = [
 // Fake controller.
 
 var User = {
-  index: function(req, res){
+  index: function(shreq, res){
     res.send(users);
   },
-  show: function(req, res){
-    res.send(users[req.params.id] || { error: 'Cannot find user' });
+  show: function(shreq, res){
+    res.send(users[shreq.params.id] || { error: 'Cannot find user' });
   },
-  destroy: function(req, res, id){
+  destroy: function(shreq, res, id){
     var destroyed = id in users;
     delete users[id];
     res.send(destroyed ? 'destroyed' : 'Cannot find user');
   },
-  range: function(req, res, a, b, format){
+  range: function(shreq, res, a, b, format){
     var range = users.slice(a, b + 1);
     switch (format) {
       case 'json':
@@ -73,7 +73,7 @@ var User = {
 
 app.resource('/users', User);
 
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   res.send([
       '<h1>Examples:</h1> <ul>'
     , '<li>GET /users</li>'

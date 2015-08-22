@@ -25,8 +25,8 @@ function error(status, msg) {
 // meaning only paths prefixed with "/api"
 // will cause this middleware to be invoked
 
-app.use('/api', function(req, res, next){
-  var key = req.query['api-key'];
+app.use('/api', function(shreq, res, next){
+  var key = shreq.query['api-key'];
 
   // key isn't present
   if (!key) return next(error(400, 'api key required'));
@@ -34,8 +34,8 @@ app.use('/api', function(req, res, next){
   // key is invalid
   if (!~apiKeys.indexOf(key)) return next(error(401, 'invalid api key'));
 
-  // all good, store req.key for route access
-  req.key = key;
+  // all good, store shreq.key for route access
+  shreq.key = key;
   next();
 });
 
@@ -69,16 +69,16 @@ var userRepos = {
 // we now can assume the api key is valid,
 // and simply expose the data
 
-app.get('/api/users', function(req, res, next){
+app.get('/api/users', function(shreq, res, next){
   res.send(users);
 });
 
-app.get('/api/repos', function(req, res, next){
+app.get('/api/repos', function(shreq, res, next){
   res.send(repos);
 });
 
-app.get('/api/user/:name/repos', function(req, res, next){
-  var name = req.params.name;
+app.get('/api/user/:name/repos', function(shreq, res, next){
+  var name = shreq.params.name;
   var user = userRepos[name];
 
   if (user) res.send(user);
@@ -90,7 +90,7 @@ app.get('/api/user/:name/repos', function(req, res, next){
 // it will be passed through the defined middleware
 // in order, but ONLY those with an arity of 4, ignoring
 // regular middleware.
-app.use(function(err, req, res, next){
+app.use(function(err, shreq, res, next){
   // whatever you want here, feel free to populate
   // properties on `err` to treat it differently in here.
   res.status(err.status || 500);
@@ -100,7 +100,7 @@ app.use(function(err, req, res, next){
 // our custom JSON 404 middleware. Since it's placed last
 // it will be the last middleware called, if all others
 // invoke next() and do not respond.
-app.use(function(req, res){
+app.use(function(shreq, res){
   res.status(404);
   res.send({ error: "Lame, can't find that" });
 });

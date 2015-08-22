@@ -32,28 +32,28 @@ app.use(logger('dev'));
 // to the templates, so "expose" will
 // be present.
 
-app.use(function(req, res, next){
+app.use(function(shreq, res, next){
   res.locals.expose = {};
-  // you could alias this as req or res.expose
+  // you could alias this as shreq or res.expose
   // to make it shorter and less annoying
   next();
 });
 
 // pretend we loaded a user
 
-app.use(function(req, res, next){
-  req.user = new User('Tobi');
+app.use(function(shreq, res, next){
+  shreq.user = new User('Tobi');
   next();
 });
 
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   res.redirect('/user');
 });
 
-app.get('/user', function(req, res){
+app.get('/user', function(shreq, res){
   // we only want to expose the user
   // to the client for this route:
-  res.locals.expose.user = req.user;
+  res.locals.expose.user = shreq.user;
   res.render('page');
 });
 

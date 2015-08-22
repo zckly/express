@@ -30,11 +30,11 @@ app.set('views', __dirname + '/views');
 // make it the default so we dont need .md
 app.set('view engine', 'md');
 
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   res.render('index', { title: 'Markdown Example' });
 });
 
-app.get('/fail', function(req, res){
+app.get('/fail', function(shreq, res){
   res.render('missing', { title: 'Markdown Example' });
 });
 

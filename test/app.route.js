@@ -6,10 +6,10 @@ describe('app.route', function(){
     var app = express();
 
     app.route('/foo')
-    .get(function(req, res) {
+    .get(function(shreq, res) {
       res.send('get');
     })
-    .post(function(req, res) {
+    .post(function(shreq, res) {
       res.send('post');
     });
 
@@ -22,13 +22,13 @@ describe('app.route', function(){
     var app = express();
 
     app.route('/foo')
-    .all(function(req, res, next) {
+    .all(function(shreq, res, next) {
       next();
     })
-    .get(function(req, res) {
+    .get(function(shreq, res) {
       res.send('get');
     })
-    .post(function(req, res) {
+    .post(function(shreq, res) {
       res.send('post');
     });
 
@@ -41,8 +41,8 @@ describe('app.route', function(){
     var app = express();
 
     app.route('/:foo')
-    .get(function(req, res) {
-      res.send(req.params.foo);
+    .get(function(shreq, res) {
+      res.send(shreq.params.foo);
     });
 
     request(app)

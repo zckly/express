@@ -22,8 +22,8 @@ app.set('views', __dirname + '/views');
 // define a custom res.message() method
 // which stores messages in the session
 app.response.message = function(msg){
-  // reference `req.session` via the `this.req` reference
-  var sess = this.req.session;
+  // reference `shreq.session` via the `this.shreq` reference
+  var sess = this.shreq.session;
   // simply add the msg to an array for later
   sess.messages = sess.messages || [];
   sess.messages.push(msg);
@@ -43,15 +43,15 @@ app.use(session({
   secret: 'some secret here'
 }));
 
-// parse request bodies (req.body)
+// parse request bodies (shreq.body)
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // allow overriding methods in query (?_method=put)
 app.use(methodOverride('_method'));
 
 // expose the "messages" local variable when views are rendered
-app.use(function(req, res, next){
-  var msgs = req.session.messages || [];
+app.use(function(shreq, res, next){
+  var msgs = shreq.session.messages || [];
 
   // expose "messages" local variable
   res.locals.messages = msgs;
@@ -69,13 +69,13 @@ app.use(function(req, res, next){
   next();
   // empty or "flush" the messages so they
   // don't build up
-  req.session.messages = [];
+  shreq.session.messages = [];
 });
 
 // load controllers
 require('./lib/boot')(app, { verbose: !module.parent });
 
-app.use(function(err, req, res, next){
+app.use(function(err, shreq, res, next){
   // log it
   if (!module.parent) console.error(err.stack);
 
@@ -84,8 +84,8 @@ app.use(function(err, req, res, next){
 });
 
 // assume 404 since no middleware responded
-app.use(function(req, res, next){
-  res.status(404).render('404', { url: req.originalUrl });
+app.use(function(shreq, res, next){
+  res.status(404).render('404', { url: shreq.originalUrl });
 });
 
 /* istanbul ignore next */

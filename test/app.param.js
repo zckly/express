@@ -9,10 +9,10 @@ describe('app', function(){
 
       app.param(function(name, regexp){
         if (Object.prototype.toString.call(regexp) == '[object RegExp]') { // See #1557
-          return function(req, res, next, val){
+          return function(shreq, res, next, val){
             var captures;
             if (captures = regexp.exec(String(val))) {
-              req.params[name] = captures[1];
+              shreq.params[name] = captures[1];
               next();
             } else {
               next('route');
@@ -23,8 +23,8 @@ describe('app', function(){
 
       app.param(':name', /^([a-zA-Z]+)$/);
 
-      app.get('/user/:name', function(req, res){
-        res.send(req.params.name);
+      app.get('/user/:name', function(shreq, res){
+        res.send(shreq.params.name);
       });
 
       request(app)
@@ -48,21 +48,21 @@ describe('app', function(){
     it('should map the array', function(done){
       var app = express();
 
-      app.param(['id', 'uid'], function(req, res, next, id){
+      app.param(['id', 'uid'], function(shreq, res, next, id){
         id = Number(id);
         if (isNaN(id)) return next('route');
-        req.params.id = id;
+        shreq.params.id = id;
         next();
       });
 
-      app.get('/post/:id', function(req, res){
-        var id = req.params.id;
+      app.get('/post/:id', function(shreq, res){
+        var id = shreq.params.id;
         id.should.be.a.Number;
         res.send('' + id);
       });
 
-      app.get('/user/:uid', function(req, res){
-        var id = req.params.id;
+      app.get('/user/:uid', function(shreq, res){
+        var id = shreq.params.id;
         id.should.be.a.Number;
         res.send('' + id);
       });
@@ -83,15 +83,15 @@ describe('app', function(){
     it('should map logic for a single param', function(done){
       var app = express();
 
-      app.param('id', function(req, res, next, id){
+      app.param('id', function(shreq, res, next, id){
         id = Number(id);
         if (isNaN(id)) return next('route');
-        req.params.id = id;
+        shreq.params.id = id;
         next();
       });
 
-      app.get('/user/:id', function(req, res){
-        var id = req.params.id;
+      app.get('/user/:id', function(shreq, res){
+        var id = shreq.params.id;
         id.should.be.a.Number;
         res.send('' + id);
       });
@@ -106,22 +106,22 @@ describe('app', function(){
       var called = 0;
       var count = 0;
 
-      app.param('user', function(req, res, next, user) {
+      app.param('user', function(shreq, res, next, user) {
         called++;
-        req.user = user;
+        shreq.user = user;
         next();
       });
 
-      app.get('/foo/:user', function(req, res, next) {
+      app.get('/foo/:user', function(shreq, res, next) {
         count++;
         next();
       });
-      app.get('/foo/:user', function(req, res, next) {
+      app.get('/foo/:user', function(shreq, res, next) {
         count++;
         next();
       });
-      app.use(function(req, res) {
-        res.end([count, called, req.user].join(' '));
+      app.use(function(shreq, res) {
+        res.end([count, called, shreq.user].join(' '));
       });
 
       request(app)
@@ -134,22 +134,22 @@ describe('app', function(){
       var called = 0;
       var count = 0;
 
-      app.param('user', function(req, res, next, user) {
+      app.param('user', function(shreq, res, next, user) {
         called++;
-        req.users = (req.users || []).concat(user);
+        shreq.users = (shreq.users || []).concat(user);
         next();
       });
 
-      app.get('/:user/bob', function(req, res, next) {
+      app.get('/:user/bob', function(shreq, res, next) {
         count++;
         next();
       });
-      app.get('/foo/:user', function(req, res, next) {
+      app.get('/foo/:user', function(shreq, res, next) {
         count++;
         next();
       });
-      app.use(function(req, res) {
-        res.end([count, called, req.users.join(',')].join(' '));
+      app.use(function(shreq, res) {
+        res.end([count, called, shreq.users.join(',')].join(' '));
       });
 
       request(app)
@@ -157,19 +157,19 @@ describe('app', function(){
       .expect('2 2 foo,bob', done);
     })
 
-    it('should support altering req.params across routes', function(done) {
+    it('should support altering shreq.params across routes', function(done) {
       var app = express();
 
-      app.param('user', function(req, res, next, user) {
-        req.params.user = 'loki';
+      app.param('user', function(shreq, res, next, user) {
+        shreq.params.user = 'loki';
         next();
       });
 
-      app.get('/:user', function(req, res, next) {
+      app.get('/:user', function(shreq, res, next) {
         next('route');
       });
-      app.get('/:user', function(req, res, next) {
-        res.send(req.params.user);
+      app.get('/:user', function(shreq, res, next) {
+        res.send(shreq.params.user);
       });
 
       request(app)
@@ -180,21 +180,21 @@ describe('app', function(){
     it('should not invoke without route handler', function(done) {
       var app = express();
 
-      app.param('thing', function(req, res, next, thing) {
-        req.thing = thing;
+      app.param('thing', function(shreq, res, next, thing) {
+        shreq.thing = thing;
         next();
       });
 
-      app.param('user', function(req, res, next, user) {
+      app.param('user', function(shreq, res, next, user) {
         next(new Error('invalid invokation'));
       });
 
-      app.post('/:user', function(req, res, next) {
-        res.send(req.params.user);
+      app.post('/:user', function(shreq, res, next) {
+        res.send(shreq.params.user);
       });
 
-      app.get('/:thing', function(req, res, next) {
-        res.send(req.thing);
+      app.get('/:thing', function(shreq, res, next) {
+        res.send(shreq.thing);
       });
 
       request(app)
@@ -205,13 +205,13 @@ describe('app', function(){
     it('should work with encoded values', function(done){
       var app = express();
 
-      app.param('name', function(req, res, next, name){
-        req.params.name = name;
+      app.param('name', function(shreq, res, next, name){
+        shreq.params.name = name;
         next();
       });
 
-      app.get('/user/:name', function(req, res){
-        var name = req.params.name;
+      app.get('/user/:name', function(shreq, res){
+        var name = shreq.params.name;
         res.send('' + name);
       });
 
@@ -223,12 +223,12 @@ describe('app', function(){
     it('should catch thrown error', function(done){
       var app = express();
 
-      app.param('id', function(req, res, next, id){
+      app.param('id', function(shreq, res, next, id){
         throw new Error('err!');
       });
 
-      app.get('/user/:id', function(req, res){
-        var id = req.params.id;
+      app.get('/user/:id', function(shreq, res){
+        var id = shreq.params.id;
         res.send('' + id);
       });
 
@@ -240,16 +240,16 @@ describe('app', function(){
     it('should catch thrown secondary error', function(done){
       var app = express();
 
-      app.param('id', function(req, res, next, val){
+      app.param('id', function(shreq, res, next, val){
         process.nextTick(next);
       });
 
-      app.param('id', function(req, res, next, id){
+      app.param('id', function(shreq, res, next, id){
         throw new Error('err!');
       });
 
-      app.get('/user/:id', function(req, res){
-        var id = req.params.id;
+      app.get('/user/:id', function(shreq, res){
+        var id = shreq.params.id;
         res.send('' + id);
       });
 
@@ -261,16 +261,16 @@ describe('app', function(){
     it('should defer to next route', function(done){
       var app = express();
 
-      app.param('id', function(req, res, next, id){
+      app.param('id', function(shreq, res, next, id){
         next('route');
       });
 
-      app.get('/user/:id', function(req, res){
-        var id = req.params.id;
+      app.get('/user/:id', function(shreq, res){
+        var id = shreq.params.id;
         res.send('' + id);
       });
 
-      app.get('/:name/123', function(req, res){
+      app.get('/:name/123', function(shreq, res){
         res.send('name');
       });
 
@@ -282,20 +282,20 @@ describe('app', function(){
     it('should defer all the param routes', function(done){
       var app = express();
 
-      app.param('id', function(req, res, next, val){
+      app.param('id', function(shreq, res, next, val){
         if (val === 'new') return next('route');
         return next();
       });
 
-      app.all('/user/:id', function(req, res){
+      app.all('/user/:id', function(shreq, res){
         res.send('all.id');
       });
 
-      app.get('/user/:id', function(req, res){
+      app.get('/user/:id', function(shreq, res){
         res.send('get.id');
       });
 
-      app.get('/user/new', function(req, res){
+      app.get('/user/new', function(shreq, res){
         res.send('get.new');
       });
 
@@ -309,23 +309,23 @@ describe('app', function(){
       var called = 0;
       var count = 0;
 
-      app.param('user', function(req, res, next, user) {
+      app.param('user', function(shreq, res, next, user) {
         called++;
         if (user === 'foo') throw new Error('err!');
-        req.user = user;
+        shreq.user = user;
         next();
       });
 
-      app.get('/:user/bob', function(req, res, next) {
+      app.get('/:user/bob', function(shreq, res, next) {
         count++;
         next();
       });
-      app.get('/foo/:user', function(req, res, next) {
+      app.get('/foo/:user', function(shreq, res, next) {
         count++;
         next();
       });
 
-      app.use(function(err, req, res, next) {
+      app.use(function(err, shreq, res, next) {
         res.status(500);
         res.send([count, called, err.message].join(' '));
       });
@@ -340,23 +340,23 @@ describe('app', function(){
       var called = 0;
       var count = 0;
 
-      app.param('user', function(req, res, next, user) {
+      app.param('user', function(shreq, res, next, user) {
         called++;
         if (user === 'foo') return next('route');
-        req.user = user;
+        shreq.user = user;
         next();
       });
 
-      app.get('/:user/bob', function(req, res, next) {
+      app.get('/:user/bob', function(shreq, res, next) {
         count++;
         next();
       });
-      app.get('/foo/:user', function(req, res, next) {
+      app.get('/foo/:user', function(shreq, res, next) {
         count++;
         next();
       });
-      app.use(function(req, res) {
-        res.end([count, called, req.user].join(' '));
+      app.use(function(shreq, res) {
+        res.end([count, called, shreq.user].join(' '));
       });
 
       request(app)

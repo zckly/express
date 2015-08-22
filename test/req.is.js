@@ -2,8 +2,8 @@
 var express = require('../')
   , request = require('supertest');
 
-function req(ct) {
-  var req = {
+function shreq(ct) {
+  var shreq = {
     headers: {
       'content-type': ct,
       'transfer-encoding': 'chunked'
@@ -11,19 +11,19 @@ function req(ct) {
     __proto__: express.request
   };
 
-  return req;
+  return shreq;
 }
 
-describe('req.is()', function(){
+describe('shreq.is()', function(){
   it('should ignore charset', function(){
-    req('application/json')
+    shreq('application/json')
     .is('json')
     .should.equal('json');
   })
 
   describe('when content-type is not present', function(){
     it('should return false', function(){
-      req('')
+      shreq('')
       .is('json')
       .should.be.false;
     })
@@ -31,11 +31,11 @@ describe('req.is()', function(){
 
   describe('when given an extension', function(){
     it('should lookup the mime type', function(){
-      req('application/json')
+      shreq('application/json')
       .is('json')
       .should.equal('json');
 
-      req('text/html')
+      shreq('text/html')
       .is('json')
       .should.be.false;
     })
@@ -43,11 +43,11 @@ describe('req.is()', function(){
 
   describe('when given a mime type', function(){
     it('should match', function(){
-      req('application/json')
+      shreq('application/json')
       .is('application/json')
       .should.equal('application/json');
 
-      req('image/jpeg')
+      shreq('image/jpeg')
       .is('application/json')
       .should.be.false;
     })
@@ -55,22 +55,22 @@ describe('req.is()', function(){
 
   describe('when given */subtype', function(){
     it('should match', function(){
-      req('application/json')
+      shreq('application/json')
       .is('*/json')
       .should.equal('application/json');
 
-      req('image/jpeg')
+      shreq('image/jpeg')
       .is('*/json')
       .should.be.false;
     })
 
     describe('with a charset', function(){
       it('should match', function(){
-        req('text/html; charset=utf-8')
+        shreq('text/html; charset=utf-8')
         .is('*/html')
         .should.equal('text/html');
 
-        req('text/plain; charset=utf-8')
+        shreq('text/plain; charset=utf-8')
         .is('*/html')
         .should.be.false;
       })
@@ -79,22 +79,22 @@ describe('req.is()', function(){
 
   describe('when given type/*', function(){
     it('should match', function(){
-      req('image/png')
+      shreq('image/png')
       .is('image/*')
       .should.equal('image/png');
 
-      req('text/html')
+      shreq('text/html')
       .is('image/*')
       .should.be.false;
     })
 
     describe('with a charset', function(){
       it('should match', function(){
-        req('text/html; charset=utf-8')
+        shreq('text/html; charset=utf-8')
         .is('text/*')
         .should.equal('text/html');
 
-        req('something/html; charset=utf-8')
+        shreq('something/html; charset=utf-8')
         .is('text/*')
         .should.be.false;
       })

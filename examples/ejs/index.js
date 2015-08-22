@@ -35,7 +35,7 @@ var users = [
   { name: 'jane', email: 'jane@learnboost.com' }
 ];
 
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   res.render('users', {
     users: users,
     title: "EJS example",

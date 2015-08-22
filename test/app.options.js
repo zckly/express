@@ -7,8 +7,8 @@ describe('OPTIONS', function(){
     var app = express();
 
     app.del('/', function(){});
-    app.get('/users', function(req, res){});
-    app.put('/users', function(req, res){});
+    app.get('/users', function(shreq, res){});
+    app.put('/users', function(shreq, res){});
 
     request(app)
     .options('/users')
@@ -20,9 +20,9 @@ describe('OPTIONS', function(){
     var app = express();
 
     app.del('/', function(){});
-    app.get('/users', function(req, res){});
-    app.put('/users', function(req, res){});
-    app.get('/users', function(req, res){});
+    app.get('/users', function(shreq, res){});
+    app.put('/users', function(shreq, res){});
+    app.get('/users', function(shreq, res){});
 
     request(app)
     .options('/users')
@@ -34,9 +34,9 @@ describe('OPTIONS', function(){
     var app = express();
 
     app.get('/', function(){});
-    app.get('/users', function(req, res){});
-    app.put('/users', function(req, res){});
-    app.all('/users', function(req, res, next){
+    app.get('/users', function(shreq, res){});
+    app.put('/users', function(shreq, res){});
+    app.all('/users', function(shreq, res, next){
       res.setHeader('x-hit', '1');
       next();
     });
@@ -51,7 +51,7 @@ describe('OPTIONS', function(){
   it('should not respond if the path is not defined', function(done){
     var app = express();
 
-    app.get('/users', function(req, res){});
+    app.get('/users', function(shreq, res){});
 
     request(app)
     .options('/other')
@@ -62,9 +62,9 @@ describe('OPTIONS', function(){
     var app = express();
     var router = new express.Router();
 
-    router.get('/users', function(req, res){});
+    router.get('/users', function(shreq, res){});
     app.use(router);
-    app.get('/other', function(req, res){});
+    app.get('/other', function(shreq, res){});
 
     request(app)
     .options('/other')
@@ -77,14 +77,14 @@ describe('OPTIONS', function(){
       var app = express();
       var router = express.Router();
 
-      router.get('/users', function(req, res){});
+      router.get('/users', function(shreq, res){});
 
-      app.use(function (req, res, next) {
+      app.use(function (shreq, res, next) {
         res.writeHead(200);
         next();
       });
       app.use(router);
-      app.use(function (err, req, res, next) {
+      app.use(function (err, shreq, res, next) {
         res.end('true');
       });
 
@@ -99,13 +99,13 @@ describe('app.options()', function(){
   it('should override the default behavior', function(done){
     var app = express();
 
-    app.options('/users', function(req, res){
+    app.options('/users', function(shreq, res){
       res.set('Allow', 'GET');
       res.send('GET');
     });
 
-    app.get('/users', function(req, res){});
-    app.put('/users', function(req, res){});
+    app.get('/users', function(shreq, res){});
+    app.put('/users', function(shreq, res){});
 
     request(app)
     .options('/users')

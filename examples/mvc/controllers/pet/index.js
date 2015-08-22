@@ -6,24 +6,24 @@ var db = require('../../db');
 
 exports.engine = 'ejs';
 
-exports.before = function(req, res, next){
-  var pet = db.pets[req.params.pet_id];
+exports.before = function(shreq, res, next){
+  var pet = db.pets[shreq.params.pet_id];
   if (!pet) return next('route');
-  req.pet = pet;
+  shreq.pet = pet;
   next();
 };
 
-exports.show = function(req, res, next){
-  res.render('show', { pet: req.pet });
+exports.show = function(shreq, res, next){
+  res.render('show', { pet: shreq.pet });
 };
 
-exports.edit = function(req, res, next){
-  res.render('edit', { pet: req.pet });
+exports.edit = function(shreq, res, next){
+  res.render('edit', { pet: shreq.pet });
 };
 
-exports.update = function(req, res, next){
-  var body = req.body;
-  req.pet.name = body.pet.name;
+exports.update = function(shreq, res, next){
+  var body = shreq.body;
+  shreq.pet.name = body.pet.name;
   res.message('Information updated!');
-  res.redirect('/pet/' + req.pet.id);
+  res.redirect('/pet/' + shreq.pet.id);
 };

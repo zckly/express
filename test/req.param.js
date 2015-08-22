@@ -3,13 +3,13 @@ var express = require('../')
   , request = require('supertest')
   , bodyParser = require('body-parser')
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.param(name, default)', function(){
     it('should use the default value unless defined', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        res.end(req.param('name', 'tj'));
+      app.use(function(shreq, res){
+        res.end(shreq.param('name', 'tj'));
       });
 
       request(app)
@@ -19,11 +19,11 @@ describe('req', function(){
   })
 
   describe('.param(name)', function(){
-    it('should check req.query', function(done){
+    it('should check shreq.query', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        res.end(req.param('name'));
+      app.use(function(shreq, res){
+        res.end(shreq.param('name'));
       });
 
       request(app)
@@ -31,13 +31,13 @@ describe('req', function(){
       .expect('tj', done);
     })
 
-    it('should check req.body', function(done){
+    it('should check shreq.body', function(done){
       var app = express();
 
       app.use(bodyParser.json());
 
-      app.use(function(req, res){
-        res.end(req.param('name'));
+      app.use(function(shreq, res){
+        res.end(shreq.param('name'));
       });
 
       request(app)
@@ -46,11 +46,11 @@ describe('req', function(){
       .expect('tj', done);
     })
 
-    it('should check req.params', function(done){
+    it('should check shreq.params', function(done){
       var app = express();
 
-      app.get('/user/:name', function(req, res){
-        res.end(req.param('filter') + req.param('name'));
+      app.get('/user/:name', function(shreq, res){
+        res.end(shreq.param('filter') + shreq.param('name'));
       });
 
       request(app)

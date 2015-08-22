@@ -20,21 +20,21 @@ var main = express();
 
 if (!module.parent) main.use(logger('dev'));
 
-main.get('/', function(req, res){
+main.get('/', function(shreq, res){
   res.send('Hello from main app!');
 });
 
-main.get('/:sub', function(req, res){
-  res.send('requested ' + req.params.sub);
+main.get('/:sub', function(shreq, res){
+  res.send('requested ' + shreq.params.sub);
 });
 
 // Redirect app
 
 var redirect = express();
 
-redirect.use(function(req, res){
-  if (!module.parent) console.log(req.vhost);
-  res.redirect('http://example.com:3000/' + req.vhost[0]);
+redirect.use(function(shreq, res){
+  if (!module.parent) console.log(shreq.vhost);
+  res.redirect('http://example.com:3000/' + shreq.vhost[0]);
 });
 
 // Vhost app

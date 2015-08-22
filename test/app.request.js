@@ -11,8 +11,8 @@ describe('app', function(){
         return require('url').parse(this.url).query;
       };
 
-      app.use(function(req, res){
-        res.end(req.querystring());
+      app.use(function(shreq, res){
+        res.end(shreq.querystring());
       });
 
       request(app)

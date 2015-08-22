@@ -2,13 +2,13 @@
 var express = require('../')
   , request = require('supertest');
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.accepts(type)', function(){
     it('should return true when Accept is not present', function(done){
       var app = express();
 
-      app.use(function(req, res, next){
-        res.end(req.accepts('json') ? 'yes' : 'no');
+      app.use(function(shreq, res, next){
+        res.end(shreq.accepts('json') ? 'yes' : 'no');
       });
 
       request(app)
@@ -19,8 +19,8 @@ describe('req', function(){
     it('should return true when present', function(done){
       var app = express();
 
-      app.use(function(req, res, next){
-        res.end(req.accepts('json') ? 'yes' : 'no');
+      app.use(function(shreq, res, next){
+        res.end(shreq.accepts('json') ? 'yes' : 'no');
       });
 
       request(app)
@@ -32,8 +32,8 @@ describe('req', function(){
     it('should return false otherwise', function(done){
       var app = express();
 
-      app.use(function(req, res, next){
-        res.end(req.accepts('json') ? 'yes' : 'no');
+      app.use(function(shreq, res, next){
+        res.end(shreq.accepts('json') ? 'yes' : 'no');
       });
 
       request(app)
@@ -46,8 +46,8 @@ describe('req', function(){
   it('should accept an argument list of type names', function(done){
     var app = express();
 
-    app.use(function(req, res, next){
-      res.end(req.accepts('json', 'html'));
+    app.use(function(shreq, res, next){
+      res.end(shreq.accepts('json', 'html'));
     });
 
     request(app)
@@ -60,8 +60,8 @@ describe('req', function(){
     it('should return the first when Accept is not present', function(done){
       var app = express();
 
-      app.use(function(req, res, next){
-        res.end(req.accepts(['json', 'html']));
+      app.use(function(shreq, res, next){
+        res.end(shreq.accepts(['json', 'html']));
       });
 
       request(app)
@@ -72,8 +72,8 @@ describe('req', function(){
     it('should return the first acceptable type', function(done){
       var app = express();
 
-      app.use(function(req, res, next){
-        res.end(req.accepts(['json', 'html']));
+      app.use(function(shreq, res, next){
+        res.end(shreq.accepts(['json', 'html']));
       });
 
       request(app)
@@ -85,8 +85,8 @@ describe('req', function(){
     it('should return false when no match is made', function(done){
       var app = express();
 
-      app.use(function(req, res, next){
-        res.end(req.accepts(['text/html', 'application/json']) ? 'yup' : 'nope');
+      app.use(function(shreq, res, next){
+        res.end(shreq.accepts(['text/html', 'application/json']) ? 'yup' : 'nope');
       });
 
       request(app)
@@ -98,8 +98,8 @@ describe('req', function(){
     it('should take quality into account', function(done){
       var app = express();
 
-      app.use(function(req, res, next){
-        res.end(req.accepts(['text/html', 'application/json']));
+      app.use(function(shreq, res, next){
+        res.end(shreq.accepts(['text/html', 'application/json']));
       });
 
       request(app)
@@ -111,8 +111,8 @@ describe('req', function(){
     it('should return the first acceptable type with canonical mime types', function(done){
       var app = express();
 
-      app.use(function(req, res, next){
-        res.end(req.accepts(['application/json', 'text/html']));
+      app.use(function(shreq, res, next){
+        res.end(shreq.accepts(['application/json', 'text/html']));
       });
 
       request(app)

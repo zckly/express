@@ -70,7 +70,7 @@ describe('res', function(){
     it('should 404 when not found', function (done) {
       var app = createApp(path.resolve(fixtures, 'does-no-exist'));
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.statusCode = 200;
         res.send('no!');
       });
@@ -83,7 +83,7 @@ describe('res', function(){
     it('should not override manual content-types', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.contentType('application/x-bogus');
         res.sendFile(path.resolve(fixtures, 'name.txt'));
       });
@@ -98,7 +98,7 @@ describe('res', function(){
       var cb = after(1, done);
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         setImmediate(function () {
           res.sendFile(path.resolve(fixtures, 'name.txt'));
           cb();
@@ -106,7 +106,7 @@ describe('res', function(){
         test.abort();
       });
 
-      app.use(function (err, req, res, next) {
+      app.use(function (err, shreq, res, next) {
         err.code.should.be.empty;
         cb();
       });
@@ -203,7 +203,7 @@ describe('res', function(){
       var cb = after(1, done);
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         setImmediate(function () {
           res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
             should(err).be.ok;
@@ -222,7 +222,7 @@ describe('res', function(){
       var cb = after(1, done);
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         onFinished(res, function () {
           res.sendFile(path.resolve(fixtures, 'name.txt'), function (err) {
             should(err).be.ok;
@@ -241,7 +241,7 @@ describe('res', function(){
       var app = express();
       var cb = after(2, done);
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.sendFile(path.resolve(fixtures, 'name.txt'), cb);
       });
 
@@ -254,7 +254,7 @@ describe('res', function(){
       var app = express();
       var cb = after(3, done);
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.sendFile(path.resolve(fixtures, 'name.txt'), cb);
       });
 
@@ -274,7 +274,7 @@ describe('res', function(){
     it('should invoke the callback on 404', function(done){
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.sendFile(path.resolve(fixtures, 'does-not-exist'), function (err) {
           should(err).be.ok;
           err.status.should.equal(404);
@@ -293,7 +293,7 @@ describe('res', function(){
       var app = express();
       var cb = after(2, done);
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.sendfile('test/fixtures/user.html', cb)
       });
 
@@ -305,7 +305,7 @@ describe('res', function(){
     it('should utilize the same options as express.static()', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.sendfile('test/fixtures/user.html', { maxAge: 60000 });
       });
 
@@ -319,7 +319,7 @@ describe('res', function(){
       var cb = after(1, done);
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         setImmediate(function () {
           res.sendfile('test/fixtures/name.txt', function (err) {
             should(err).be.ok;
@@ -338,7 +338,7 @@ describe('res', function(){
       var cb = after(1, done);
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         onFinished(res, function () {
           res.sendfile('test/fixtures/name.txt', function (err) {
             should(err).be.ok;
@@ -357,7 +357,7 @@ describe('res', function(){
       var app = express();
       var cb = after(2, done);
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.sendfile('test/fixtures/name.txt', cb);
       });
 
@@ -370,7 +370,7 @@ describe('res', function(){
       var app = express();
       var cb = after(3, done);
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.sendfile('test/fixtures/name.txt', cb);
       });
 
@@ -391,7 +391,7 @@ describe('res', function(){
       var app = express();
       var calls = 0;
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.sendfile('test/fixtures/nope.html', function(err){
           assert.equal(calls++, 0);
           assert(!res.headersSent);
@@ -407,7 +407,7 @@ describe('res', function(){
     it('should not override manual content-types', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.contentType('txt');
         res.sendfile('test/fixtures/user.html');
       });
@@ -422,7 +422,7 @@ describe('res', function(){
       var app = express()
         , calls = 0;
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.sendfile('test/fixtures/foo/../user.html', function(err){
           assert(!res.headersSent);
           ++calls;
@@ -440,14 +440,14 @@ describe('res', function(){
       var app = express()
         , calls = 0;
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.sendfile('test/fixtures/user.html', function(err){
           assert(!res.headersSent);
-          req.socket.listeners('error').should.have.length(1); // node's original handler
+          shreq.socket.listeners('error').should.have.length(1); // node's original handler
           done();
         });
 
-        req.socket.emit('error', new Error('broken!'));
+        shreq.socket.emit('error', new Error('broken!'));
       });
 
       request(app)
@@ -460,7 +460,7 @@ describe('res', function(){
     it('should not serve dotfiles', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.sendfile('test/fixtures/.name');
       });
 
@@ -472,7 +472,7 @@ describe('res', function(){
     it('should accept dotfiles option', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.sendfile('test/fixtures/.name', { dotfiles: 'allow' });
       });
 
@@ -488,7 +488,7 @@ describe('res', function(){
          'x-other': 'done'
       };
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.sendfile('test/fixtures/user.html', { headers: headers });
       });
 
@@ -503,7 +503,7 @@ describe('res', function(){
       var app = express();
       var headers = { 'x-success': 'sent' };
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.sendfile('test/fixtures/user.nothing', { headers: headers });
       });
 
@@ -519,7 +519,7 @@ describe('res', function(){
     it('should transfer a file', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.sendfile('test/fixtures/name.txt');
       });
 
@@ -531,7 +531,7 @@ describe('res', function(){
     it('should transfer a directory index file', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.sendfile('test/fixtures/blog/');
       });
 
@@ -543,7 +543,7 @@ describe('res', function(){
     it('should 404 for directory without trailing slash', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.sendfile('test/fixtures/blog');
       });
 
@@ -555,7 +555,7 @@ describe('res', function(){
     it('should transfer a file with urlencoded name', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.sendfile('test/fixtures/%25%20of%20dogs.txt');
       });
 
@@ -568,7 +568,7 @@ describe('res', function(){
       var cb = after(1, done);
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         setImmediate(function () {
           res.sendfile(path.resolve(fixtures, 'name.txt'));
           cb();
@@ -576,7 +576,7 @@ describe('res', function(){
         test.abort();
       });
 
-      app.use(function (err, req, res, next) {
+      app.use(function (err, shreq, res, next) {
         err.code.should.be.empty;
         cb();
       });
@@ -589,7 +589,7 @@ describe('res', function(){
       it('should transfer the file', function(done){
         var app = express();
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.sendfile(__dirname + '/fixtures/user.html');
         });
 
@@ -607,7 +607,7 @@ describe('res', function(){
       it('should transfer the file', function(done){
         var app = express();
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.sendfile('test/fixtures/user.html');
         });
 
@@ -623,7 +623,7 @@ describe('res', function(){
       it('should serve relative to "root"', function(done){
         var app = express();
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.sendfile('user.html', { root: 'test/fixtures/' });
         });
 
@@ -639,7 +639,7 @@ describe('res', function(){
       it('should consider ../ malicious when "root" is not set', function(done){
         var app = express();
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.sendfile('test/fixtures/foo/../user.html');
         });
 
@@ -651,7 +651,7 @@ describe('res', function(){
       it('should allow ../ when "root" is set', function(done){
         var app = express();
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.sendfile('foo/../user.html', { root: 'test/fixtures' });
         });
 
@@ -663,7 +663,7 @@ describe('res', function(){
       it('should disallow requesting out of "root"', function(done){
         var app = express();
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.sendfile('foo/../../user.html', { root: 'test/fixtures' });
         });
 
@@ -676,15 +676,15 @@ describe('res', function(){
         var app = express()
           , calls = 0;
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.sendfile('user.html');
         });
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           assert(0, 'this should not be called');
         });
 
-        app.use(function(err, req, res, next){
+        app.use(function(err, shreq, res, next){
           ++calls;
           next(err);
         });
@@ -703,7 +703,7 @@ describe('res', function(){
           var app = express()
             , calls = 0;
 
-          app.use(function(req, res){
+          app.use(function(shreq, res){
             res.sendfile(__dirname + '/fixtures/name.txt');
           });
 
@@ -719,7 +719,7 @@ describe('res', function(){
 function createApp(path, options, fn) {
   var app = express();
 
-  app.use(function (req, res) {
+  app.use(function (shreq, res) {
     res.sendFile(path, options, fn);
   });
 

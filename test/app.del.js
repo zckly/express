@@ -6,7 +6,7 @@ describe('app.del()', function(){
   it('should alias app.delete()', function(done){
     var app = express();
 
-    app.del('/tobi', function(req, res){
+    app.del('/tobi', function(shreq, res){
       res.end('deleted tobi!');
     });
 

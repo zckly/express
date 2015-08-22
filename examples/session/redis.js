@@ -14,7 +14,7 @@ var app = express();
 
 app.use(logger('dev'));
 
-// Populates req.session
+// Populates shreq.session
 app.use(session({
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
@@ -22,15 +22,15 @@ app.use(session({
   store: new RedisStore
 }));
 
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   var body = '';
-  if (req.session.views) {
-    ++req.session.views;
+  if (shreq.session.views) {
+    ++shreq.session.views;
   } else {
-    req.session.views = 1;
+    shreq.session.views = 1;
     body += '<p>First time visiting? view this page in several browsers :)</p>';
   }
-  res.send(body + '<p>viewed <strong>' + req.session.views + '</strong> times.</p>');
+  res.send(body + '<p>viewed <strong>' + shreq.session.views + '</strong> times.</p>');
 });
 
 app.listen(3000);

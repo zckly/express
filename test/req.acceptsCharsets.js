@@ -2,14 +2,14 @@
 var express = require('../')
   , request = require('supertest');
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.acceptsCharsets(type)', function(){
     describe('when Accept-Charset is not present', function(){
       it('should return true', function(done){
         var app = express();
 
-        app.use(function(req, res, next){
-          res.end(req.acceptsCharsets('utf-8') ? 'yes' : 'no');
+        app.use(function(shreq, res, next){
+          res.end(shreq.acceptsCharsets('utf-8') ? 'yes' : 'no');
         });
 
         request(app)
@@ -22,8 +22,8 @@ describe('req', function(){
       it('should return true when present', function(done){
         var app = express();
 
-        app.use(function(req, res, next){
-          res.end(req.acceptsCharsets('utf-8') ? 'yes' : 'no');
+        app.use(function(shreq, res, next){
+          res.end(shreq.acceptsCharsets('utf-8') ? 'yes' : 'no');
         });
 
         request(app)
@@ -35,8 +35,8 @@ describe('req', function(){
       it('should return false otherwise', function(done){
         var app = express();
 
-        app.use(function(req, res, next){
-          res.end(req.acceptsCharsets('utf-8') ? 'yes' : 'no');
+        app.use(function(shreq, res, next){
+          res.end(shreq.acceptsCharsets('utf-8') ? 'yes' : 'no');
         });
 
         request(app)

@@ -10,17 +10,17 @@ describe('Route', function(){
 
   describe('.all', function(){
     it('should add handler', function(done){
-      var req = { method: 'GET', url: '/' };
+      var shreq = { method: 'GET', url: '/' };
       var route = new Route('/foo');
 
-      route.all(function(req, res, next) {
-        req.called = true;
+      route.all(function(shreq, res, next) {
+        shreq.called = true;
         next();
       });
 
-      route.dispatch(req, {}, function (err) {
+      route.dispatch(shreq, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.ok;
+        should(shreq.called).be.ok;
         done();
       });
     })
@@ -34,34 +34,34 @@ describe('Route', function(){
         done();
       });
 
-      route.all(function(req, res, next) {
+      route.all(function(shreq, res, next) {
         count++;
         next();
       });
 
       methods.forEach(function testMethod(method) {
-        var req = { method: method, url: '/' };
-        route.dispatch(req, {}, cb);
+        var shreq = { method: method, url: '/' };
+        route.dispatch(shreq, {}, cb);
       });
     })
 
     it('should stack', function(done) {
-      var req = { count: 0, method: 'GET', url: '/' };
+      var shreq = { count: 0, method: 'GET', url: '/' };
       var route = new Route('/foo');
 
-      route.all(function(req, res, next) {
-        req.count++;
+      route.all(function(shreq, res, next) {
+        shreq.count++;
         next();
       });
 
-      route.all(function(req, res, next) {
-        req.count++;
+      route.all(function(shreq, res, next) {
+        shreq.count++;
         next();
       });
 
-      route.dispatch(req, {}, function (err) {
+      route.dispatch(shreq, {}, function (err) {
         if (err) return done(err);
-        req.count.should.equal(2);
+        shreq.count.should.equal(2);
         done();
       });
     })
@@ -69,63 +69,63 @@ describe('Route', function(){
 
   describe('.VERB', function(){
     it('should support .get', function(done){
-      var req = { method: 'GET', url: '/' };
+      var shreq = { method: 'GET', url: '/' };
       var route = new Route('');
 
-      route.get(function(req, res, next) {
-        req.called = true;
+      route.get(function(shreq, res, next) {
+        shreq.called = true;
         next();
       })
 
-      route.dispatch(req, {}, function (err) {
+      route.dispatch(shreq, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.ok;
+        should(shreq.called).be.ok;
         done();
       });
     })
 
     it('should limit to just .VERB', function(done){
-      var req = { method: 'POST', url: '/' };
+      var shreq = { method: 'POST', url: '/' };
       var route = new Route('');
 
-      route.get(function(req, res, next) {
+      route.get(function(shreq, res, next) {
         throw new Error('not me!');
       })
 
-      route.post(function(req, res, next) {
-        req.called = true;
+      route.post(function(shreq, res, next) {
+        shreq.called = true;
         next();
       })
 
-      route.dispatch(req, {}, function (err) {
+      route.dispatch(shreq, {}, function (err) {
         if (err) return done(err);
-        should(req.called).be.true;
+        should(shreq.called).be.true;
         done();
       });
     })
 
     it('should allow fallthrough', function(done){
-      var req = { order: '', method: 'GET', url: '/' };
+      var shreq = { order: '', method: 'GET', url: '/' };
       var route = new Route('');
 
-      route.get(function(req, res, next) {
-        req.order += 'a';
+      route.get(function(shreq, res, next) {
+        shreq.order += 'a';
         next();
       })
 
-      route.all(function(req, res, next) {
-        req.order += 'b';
+      route.all(function(shreq, res, next) {
+        shreq.order += 'b';
         next();
       });
 
-      route.get(function(req, res, next) {
-        req.order += 'c';
+      route.get(function(shreq, res, next) {
+        shreq.order += 'c';
         next();
       })
 
-      route.dispatch(req, {}, function (err) {
+      route.dispatch(shreq, {}, function (err) {
         if (err) return done(err);
-        req.order.should.equal('abc');
+        shreq.order.should.equal('abc');
         done();
       });
     })
@@ -133,90 +133,90 @@ describe('Route', function(){
 
   describe('errors', function(){
     it('should handle errors via arity 4 functions', function(done){
-      var req = { order: '', method: 'GET', url: '/' };
+      var shreq = { order: '', method: 'GET', url: '/' };
       var route = new Route('');
 
-      route.all(function(req, res, next){
+      route.all(function(shreq, res, next){
         next(new Error('foobar'));
       });
 
-      route.all(function(req, res, next){
-        req.order += '0';
+      route.all(function(shreq, res, next){
+        shreq.order += '0';
         next();
       });
 
-      route.all(function(err, req, res, next){
-        req.order += 'a';
+      route.all(function(err, shreq, res, next){
+        shreq.order += 'a';
         next(err);
       });
 
-      route.dispatch(req, {}, function (err) {
+      route.dispatch(shreq, {}, function (err) {
         should(err).be.ok;
         should(err.message).equal('foobar');
-        req.order.should.equal('a');
+        shreq.order.should.equal('a');
         done();
       });
     })
 
     it('should handle throw', function(done) {
-      var req = { order: '', method: 'GET', url: '/' };
+      var shreq = { order: '', method: 'GET', url: '/' };
       var route = new Route('');
 
-      route.all(function(req, res, next){
+      route.all(function(shreq, res, next){
         throw new Error('foobar');
       });
 
-      route.all(function(req, res, next){
-        req.order += '0';
+      route.all(function(shreq, res, next){
+        shreq.order += '0';
         next();
       });
 
-      route.all(function(err, req, res, next){
-        req.order += 'a';
+      route.all(function(err, shreq, res, next){
+        shreq.order += 'a';
         next(err);
       });
 
-      route.dispatch(req, {}, function (err) {
+      route.dispatch(shreq, {}, function (err) {
         should(err).be.ok;
         should(err.message).equal('foobar');
-        req.order.should.equal('a');
+        shreq.order.should.equal('a');
         done();
       });
     });
 
     it('should handle throwing inside error handlers', function(done) {
-      var req = { method: 'GET', url: '/' };
+      var shreq = { method: 'GET', url: '/' };
       var route = new Route('');
 
-      route.get(function(req, res, next){
+      route.get(function(shreq, res, next){
         throw new Error('boom!');
       });
 
-      route.get(function(err, req, res, next){
+      route.get(function(err, shreq, res, next){
         throw new Error('oops');
       });
 
-      route.get(function(err, req, res, next){
-        req.message = err.message;
+      route.get(function(err, shreq, res, next){
+        shreq.message = err.message;
         next();
       });
 
-      route.dispatch(req, {}, function (err) {
+      route.dispatch(shreq, {}, function (err) {
         if (err) return done(err);
-        should(req.message).equal('oops');
+        should(shreq.message).equal('oops');
         done();
       });
     });
 
     it('should handle throw in .all', function(done) {
-      var req = { method: 'GET', url: '/' };
+      var shreq = { method: 'GET', url: '/' };
       var route = new Route('');
 
-      route.all(function(req, res, next){
+      route.all(function(shreq, res, next){
         throw new Error('boom!');
       });
 
-      route.dispatch(req, {}, function(err){
+      route.dispatch(shreq, {}, function(err){
         should(err).be.ok;
         err.message.should.equal('boom!');
         done();
@@ -224,15 +224,15 @@ describe('Route', function(){
     });
 
     it('should handle single error handler', function(done) {
-      var req = { method: 'GET', url: '/' };
+      var shreq = { method: 'GET', url: '/' };
       var route = new Route('');
 
-      route.all(function(err, req, res, next){
+      route.all(function(err, shreq, res, next){
         // this should not execute
         true.should.be.false;
       });
 
-      route.dispatch(req, {}, done);
+      route.dispatch(shreq, {}, done);
     });
   })
 })

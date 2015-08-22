@@ -30,7 +30,7 @@ db.sadd('cat', 'luna');
  * GET the search page.
  */
 
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   res.render('search');
 });
 
@@ -38,8 +38,8 @@ app.get('/', function(req, res){
  * GET search for :query.
  */
 
-app.get('/search/:query?', function(req, res){
-  var query = req.params.query;
+app.get('/search/:query?', function(shreq, res){
+  var query = shreq.params.query;
   db.smembers(query, function(err, vals){
     if (err) return res.send(500);
     res.send(vals);
@@ -53,7 +53,7 @@ app.get('/search/:query?', function(req, res){
  * template.
  */
 
-app.get('/client.js', function(req, res){
+app.get('/client.js', function(shreq, res){
   res.sendFile(__dirname + '/client.js');
 });
 

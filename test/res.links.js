@@ -7,7 +7,7 @@ describe('res', function(){
     it('should set Link header field', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.links({
           next: 'http://api.example.com/users?page=2',
           last: 'http://api.example.com/users?page=5'
@@ -24,7 +24,7 @@ describe('res', function(){
     it('should set Link header field for multiple calls', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.links({
           next: 'http://api.example.com/users?page=2',
           last: 'http://api.example.com/users?page=5'

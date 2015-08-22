@@ -25,11 +25,11 @@ app.use(session({
 
 // Session-persisted message middleware
 
-app.use(function(req, res, next){
-  var err = req.session.error;
-  var msg = req.session.success;
-  delete req.session.error;
-  delete req.session.success;
+app.use(function(shreq, res, next){
+  var err = shreq.session.error;
+  var msg = shreq.session.success;
+  delete shreq.session.error;
+  delete shreq.session.success;
   res.locals.message = '';
   if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
   if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
@@ -70,52 +70,52 @@ function authenticate(name, pass, fn) {
   });
 }
 
-function restrict(req, res, next) {
-  if (req.session.user) {
+function restrict(shreq, res, next) {
+  if (shreq.session.user) {
     next();
   } else {
-    req.session.error = 'Access denied!';
+    shreq.session.error = 'Access denied!';
     res.redirect('/login');
   }
 }
 
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   res.redirect('/login');
 });
 
-app.get('/restricted', restrict, function(req, res){
+app.get('/restricted', restrict, function(shreq, res){
   res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');
 });
 
-app.get('/logout', function(req, res){
+app.get('/logout', function(shreq, res){
   // destroy the user's session to log them out
   // will be re-created next request
-  req.session.destroy(function(){
+  shreq.session.destroy(function(){
     res.redirect('/');
   });
 });
 
-app.get('/login', function(req, res){
+app.get('/login', function(shreq, res){
   res.render('login');
 });
 
-app.post('/login', function(req, res){
-  authenticate(req.body.username, req.body.password, function(err, user){
+app.post('/login', function(shreq, res){
+  authenticate(shreq.body.username, shreq.body.password, function(err, user){
     if (user) {
       // Regenerate session when signing in
       // to prevent fixation
-      req.session.regenerate(function(){
+      shreq.session.regenerate(function(){
         // Store the user's primary key
         // in the session store to be retrieved,
         // or in this case the entire user object
-        req.session.user = user;
-        req.session.success = 'Authenticated as ' + user.name
+        shreq.session.user = user;
+        shreq.session.success = 'Authenticated as ' + user.name
           + ' click to <a href="/logout">logout</a>. '
           + ' You may now access <a href="/restricted">/restricted</a>.';
         res.redirect('back');
       });
     } else {
-      req.session.error = 'Authentication failed, please check your '
+      shreq.session.error = 'Authentication failed, please check your '
         + ' username and password.'
         + ' (use "tj" and "foobar")';
       res.redirect('/login');

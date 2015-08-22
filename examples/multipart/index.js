@@ -8,7 +8,7 @@ var format = require('util').format;
 
 var app = module.exports = express();
 
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   res.send('<form method="post" enctype="multipart/form-data">'
     + '<p>Title: <input type="text" name="title" /></p>'
     + '<p>Image: <input type="file" name="image" /></p>'
@@ -16,7 +16,7 @@ app.get('/', function(req, res){
     + '</form>');
 });
 
-app.post('/', function(req, res, next){
+app.post('/', function(shreq, res, next){
   // create a form to begin parsing
   var form = new multiparty.Form();
   var image;
@@ -50,7 +50,7 @@ app.post('/', function(req, res, next){
 
 
   // parse the form
-  form.parse(req);
+  form.parse(shreq);
 });
 
 /* istanbul ignore next */

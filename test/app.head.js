@@ -7,7 +7,7 @@ describe('HEAD', function(){
   it('should default to GET', function(done){
     var app = express();
 
-    app.get('/tobi', function(req, res){
+    app.get('/tobi', function(shreq, res){
       // send() detects HEAD
       res.send('tobi');
     });
@@ -20,7 +20,7 @@ describe('HEAD', function(){
   it('should output the same headers as GET requests', function(done){
     var app = express();
 
-    app.get('/tobi', function(req, res){
+    app.get('/tobi', function(shreq, res){
       // send() detects HEAD
       res.send('tobi');
     });
@@ -48,12 +48,12 @@ describe('app.head()', function(){
     var app = express()
       , called;
 
-    app.head('/tobi', function(req, res){
+    app.head('/tobi', function(shreq, res){
       called = true;
       res.end('');
     });
 
-    app.get('/tobi', function(req, res){
+    app.get('/tobi', function(shreq, res){
       assert(0, 'should not call GET');
       res.send('tobi');
     });

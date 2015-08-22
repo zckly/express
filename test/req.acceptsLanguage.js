@@ -2,14 +2,14 @@
 var express = require('../')
   , request = require('supertest');
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.acceptsLanguage', function(){
     it('should be true if language accpeted', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        req.acceptsLanguage('en-us').should.be.ok;
-        req.acceptsLanguage('en').should.be.ok;
+      app.use(function(shreq, res){
+        shreq.acceptsLanguage('en-us').should.be.ok;
+        shreq.acceptsLanguage('en').should.be.ok;
         res.end();
       });
 
@@ -22,8 +22,8 @@ describe('req', function(){
     it('should be false if language not accpeted', function(done){
       var app = express();
 
-      app.use(function(req, res){
-        req.acceptsLanguage('es').should.not.be.ok;
+      app.use(function(shreq, res){
+        shreq.acceptsLanguage('es').should.not.be.ok;
         res.end();
       });
 
@@ -37,10 +37,10 @@ describe('req', function(){
       it('should always return true', function(done){
         var app = express();
 
-        app.use(function(req, res){
-          req.acceptsLanguage('en').should.be.ok;
-          req.acceptsLanguage('es').should.be.ok;
-          req.acceptsLanguage('jp').should.be.ok;
+        app.use(function(shreq, res){
+          shreq.acceptsLanguage('en').should.be.ok;
+          shreq.acceptsLanguage('es').should.be.ok;
+          shreq.acceptsLanguage('jp').should.be.ok;
           res.end();
         });
 

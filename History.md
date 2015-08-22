@@ -2,7 +2,7 @@
 ===================
 
   * Fix infinite loop condition using `mergeParams: true`
-  * Fix inner numeric indices incorrectly altering parent `req.params`
+  * Fix inner numeric indices incorrectly altering parent `shreq.params`
 
 4.13.2 / 2015-07-31
 ===================
@@ -126,7 +126,7 @@
     - deps: debug@~2.2.0
     - deps: on-finished@~2.2.1
   * deps: on-finished@~2.2.1
-    - Fix `isFinished(req)` when data buffered
+    - Fix `isFinished(shreq)` when data buffered
   * deps: proxy-addr@~1.0.8
     - deps: ipaddr.js@1.0.1
   * deps: qs@2.4.2
@@ -174,8 +174,8 @@
 
   * Fix constructing application with non-configurable prototype properties
   * Fix `ECONNRESET` errors from `res.sendFile` usage
-  * Fix `req.host` when using "trust proxy" hops count
-  * Fix `req.protocol`/`req.secure` when using "trust proxy" hops count
+  * Fix `shreq.host` when using "trust proxy" hops count
+  * Fix `shreq.protocol`/`shreq.secure` when using "trust proxy" hops count
   * Fix wrong `code` on aborted connections from `res.sendFile`
   * deps: merge-descriptors@1.0.0
 
@@ -229,7 +229,7 @@
 
   * Add `res.append(field, val)` to append headers
   * Deprecate leading `:` in `name` for `app.param(name, fn)`
-  * Deprecate `req.param()` -- use `req.params`, `req.body`, or `req.query` instead
+  * Deprecate `shreq.param()` -- use `shreq.params`, `shreq.body`, or `shreq.query` instead
   * Deprecate `app.param(fn)`
   * Fix `OPTIONS` responses to include the `HEAD` method properly
   * Fix `res.sendFile` not always detecting aborted connection
@@ -271,7 +271,7 @@
 4.10.6 / 2014-12-12
 ===================
 
-  * Fix exception in `req.fresh`/`req.stale` without response headers
+  * Fix exception in `shreq.fresh`/`shreq.stale` without response headers
 
 4.10.5 / 2014-12-10
 ===================
@@ -422,7 +422,7 @@
   * Invoke callback for sendfile when client aborts
     - Applies to `res.sendFile`, `res.sendfile`, and `res.download`
     - `err` will be populated with request aborted error
-  * Support IP address host in `req.subdomains`
+  * Support IP address host in `shreq.subdomains`
   * Use `etag` to generate `ETag` headers
   * deps: accepts@~1.1.0
     - update `mime-types`
@@ -498,7 +498,7 @@
   * deps: parseurl@~1.3.0
   * deps: qs@1.2.1
   * deps: serve-static@~1.5.1
-    - Fix parsing of weird `req.originalUrl` values
+    - Fix parsing of weird `shreq.originalUrl` values
     - deps: parseurl@~1.3.0
     - deps: utils-merge@1.0.0
 
@@ -575,7 +575,7 @@
 4.7.0 / 2014-07-25
 ==================
 
-  * fix `req.protocol` for proxy-direct connections
+  * fix `shreq.protocol` for proxy-direct connections
   * configurable query parser with `app.set('query parser', parser)`
     - `app.set('query parser', 'extended')` parse with "qs" module
     - `app.set('query parser', 'simple')` parse with "querystring" core module
@@ -618,7 +618,7 @@
   * accept multiple callbacks to `app.use()`
   * add explicit "Rosetta Flash JSONP abuse" protection
     - previous versions are not vulnerable; this is just explicit protection
-  * catch errors in multiple `req.param(name, fn)` handlers
+  * catch errors in multiple `shreq.param(name, fn)` handlers
   * deprecate `res.redirect(url, status)` -- use `res.redirect(status, url)` instead
   * fix `res.send(status, num)` to send `num` as json (not error)
   * remove unnecessary escaping when `res.jsonp` returns JSON response
@@ -647,25 +647,25 @@
 4.5.1 / 2014-07-06
 ==================
 
- * fix routing regression when altering `req.method`
+ * fix routing regression when altering `shreq.method`
 
 4.5.0 / 2014-07-04
 ==================
 
- * add deprecation message to non-plural `req.accepts*`
+ * add deprecation message to non-plural `shreq.accepts*`
  * add deprecation message to `res.send(body, status)`
  * add deprecation message to `res.vary()`
  * add `headers` option to `res.sendfile`
    - use to set headers on successful file transfer
  * add `mergeParams` option to `Router`
-   - merges `req.params` from parent routes
- * add `req.hostname` -- correct name for what `req.host` returns
+   - merges `shreq.params` from parent routes
+ * add `shreq.hostname` -- correct name for what `shreq.host` returns
  * deprecate things with `depd` module
- * deprecate `req.host` -- use `req.hostname` instead
+ * deprecate `shreq.host` -- use `shreq.hostname` instead
  * fix behavior when handling request without routes
  * fix handling when `route.all` is only route
  * invoke `router.param()` only when route matches
- * restore `req.params` after invoking router
+ * restore `shreq.params` after invoking router
  * use `finalhandler` for final response handling
  * use `media-typer` to alter content-type charset
  * deps: accepts@~1.0.7
@@ -696,7 +696,7 @@
 4.4.3 / 2014-06-11
 ==================
 
- * fix persistence of modified `req.params[name]` from `app.param()`
+ * fix persistence of modified `shreq.params[name]` from `app.param()`
  * deps: accepts@1.0.3
    - deps: negotiator@0.4.6
  * deps: debug@1.0.2
@@ -771,7 +771,7 @@
 4.3.0 / 2014-05-21
 ==================
 
- * add `req.baseUrl` to access the path stripped from `req.url` in routes
+ * add `shreq.baseUrl` to access the path stripped from `shreq.url` in routes
  * fix behavior of multiple `app.VERB` for the same path
  * fix issue routing requests among sub routers
  * invoke `router.param()` only when necessary instead of every match
@@ -795,7 +795,7 @@
    - the edge-case `res.json(status, num)` requires `res.status(status).json(num)`
  * deprecate `res.jsonp(obj, status)` -- use `res.jsonp(status, obj)` instead
    - the edge-case `res.jsonp(status, num)` requires `res.status(status).jsonp(num)`
- * fix `req.next` when inside router instance
+ * fix `shreq.next` when inside router instance
  * include `ETag` header in `HEAD` requests
  * keep previous `Content-Type` for `res.jsonp`
  * support PURGE method
@@ -811,7 +811,7 @@
 4.1.2 / 2014-05-08
 ==================
 
- * fix `req.host` for IPv6 literals
+ * fix `shreq.host` for IPv6 literals
  * fix `res.jsonp` error if callback param is object
 
 4.1.1 / 2014-04-27
@@ -862,21 +862,21 @@
    - `express.createServer()` - it has been deprecated for a long time. Use `express()`
    - `app.configure` - use logic in your own app code
    - `app.router` - is removed
-   - `req.auth` - use `basic-auth` instead
-   - `req.accepted*` - use `req.accepts*()` instead
+   - `shreq.auth` - use `basic-auth` instead
+   - `shreq.accepted*` - use `shreq.accepts*()` instead
    - `res.location` - relative URL resolution is removed
    - `res.charset` - include the charset in the content type when using `res.set()`
    - all bundled middleware except `static`
  * change:
    - `app.route` -> `app.mountpath` when mounting an express app in another express app
    - `json spaces` no longer enabled by default in development
-   - `req.accepts*` -> `req.accepts*s` - i.e. `req.acceptsEncoding` -> `req.acceptsEncodings`
-   - `req.params` is now an object instead of an array
+   - `shreq.accepts*` -> `shreq.accepts*s` - i.e. `shreq.acceptsEncoding` -> `shreq.acceptsEncodings`
+   - `shreq.params` is now an object instead of an array
    - `res.locals` is no longer a function. It is a plain js object. Treat it as such.
    - `res.headerSent` -> `res.headersSent` to match node.js ServerResponse object
  * refactor:
-   - `req.accepts*` with [accepts](https://github.com/expressjs/accepts)
-   - `req.is` with [type-is](https://github.com/expressjs/type-is)
+   - `shreq.accepts*` with [accepts](https://github.com/expressjs/accepts)
+   - `shreq.is` with [type-is](https://github.com/expressjs/type-is)
    - [path-to-regexp](https://github.com/component/path-to-regexp)
  * add:
    - `app.router()` - returns the app Router instance
@@ -1028,8 +1028,8 @@
 3.20.1 / 2015-02-28
 ===================
 
-  * Fix `req.host` when using "trust proxy" hops count
-  * Fix `req.protocol`/`req.secure` when using "trust proxy" hops count
+  * Fix `shreq.host` when using "trust proxy" hops count
+  * Fix `shreq.protocol`/`shreq.secure` when using "trust proxy" hops count
 
 3.20.0 / 2015-02-18
 ===================
@@ -1115,7 +1115,7 @@
 3.18.6 / 2014-12-12
 ===================
 
-  * Fix exception in `req.fresh`/`req.stale` without response headers
+  * Fix exception in `shreq.fresh`/`shreq.stale` without response headers
 
 3.18.5 / 2014-12-11
 ===================
@@ -1271,13 +1271,13 @@
 3.17.1 / 2014-09-08
 ===================
 
-  * Fix error in `req.subdomains` on empty host
+  * Fix error in `shreq.subdomains` on empty host
 
 3.17.0 / 2014-09-08
 ===================
 
-  * Support `X-Forwarded-Host` in `req.subdomains`
-  * Support IP address host in `req.subdomains`
+  * Support `X-Forwarded-Host` in `shreq.subdomains`
+  * Support IP address host in `shreq.subdomains`
   * deps: connect@2.26.0
     - deps: body-parser@~1.8.1
     - deps: compression@~1.1.0
@@ -1460,7 +1460,7 @@
 3.15.0 / 2014-07-22
 ===================
 
-  * Fix `req.protocol` for proxy-direct connections
+  * Fix `shreq.protocol` for proxy-direct connections
   * Pass options from `res.sendfile` to `send`
   * deps: connect@2.24.0
     - deps: body-parser@~1.5.0
@@ -1519,7 +1519,7 @@
 ===================
 
  * add deprecation message to `app.configure`
- * add deprecation message to `req.auth`
+ * add deprecation message to `shreq.auth`
  * use `basic-auth` to parse `Authorization` header
  * deps: connect@2.22.0
    - deps: csurf@~1.3.0
@@ -1743,7 +1743,7 @@
 3.5.3 / 2014-05-08
 ==================
 
- * fix `req.host` for IPv6 literals
+ * fix `shreq.host` for IPv6 literals
  * fix `res.jsonp` error if callback param is object
 
 3.5.2 / 2014-04-24
@@ -1839,7 +1839,7 @@
 ==================
 
  * Revert "remove charset from json responses. Closes #1631" (causes issues in some clients)
- * add: req.accepts take an argument list
+ * add: shreq.accepts take an argument list
 
 3.3.4 / 2013-07-08
 ==================
@@ -1869,7 +1869,7 @@
  * update connect
  * add support for multiple X-Forwarded-Proto values. Closes #1646
  * change: remove charset from json responses. Closes #1631
- * change: return actual booleans from req.accept* functions
+ * change: return actual booleans from shreq.accept* functions
  * fix jsonp callback array throw
 
 3.2.6 / 2013-06-02
@@ -1888,8 +1888,8 @@
 3.2.4 / 2013-05-09
 ==================
 
-  * fix `req.subdomains` when no Host is present
-  * fix `req.host` when no Host is present, return undefined
+  * fix `shreq.subdomains` when no Host is present
+  * fix `shreq.host` when no Host is present, return undefined
 
 3.2.3 / 2013-05-07
 ==================
@@ -1913,8 +1913,8 @@
 ==================
 
   * add "view" constructor setting to override view behaviour
-  * add req.acceptsEncoding(name)
-  * add req.acceptedEncodings
+  * add shreq.acceptsEncoding(name)
+  * add shreq.acceptedEncodings
   * revert cookie signature change causing session race conditions
   * fix sorting of Accept values of the same quality
 
@@ -1927,7 +1927,7 @@
 3.1.1 / 2013-04-01
 ==================
 
-  * add X-Forwarded-Host support to `req.host`
+  * add X-Forwarded-Host support to `shreq.host`
   * fix relative redirects
   * update mkdirp
   * update buffer-crc32
@@ -1939,10 +1939,10 @@
   * add support for leading "." in "view engine" setting
   * add array support to `res.set()`
   * add node 0.8.x to travis.yml
-  * add "subdomain offset" setting for tweaking `req.subdomains`
+  * add "subdomain offset" setting for tweaking `shreq.subdomains`
   * add `res.location(url)` implementing `res.redirect()`-like setting of Location
   * use app.get() for x-powered-by setting for inheritance
-  * fix colons in passwords for `req.auth`
+  * fix colons in passwords for `shreq.auth`
 
 3.0.6 / 2013-01-04
 ==================
@@ -1990,8 +1990,8 @@
 ==================
 
   * add `make clean`
-  * add "Basic" check to req.auth
-  * add `req.auth` test coverage
+  * add "Basic" check to shreq.auth
+  * add `shreq.auth` test coverage
   * add cb && cb(payload) to `res.jsonp()`. Closes #1374
   * add backwards compat for `res.redirect()` status. Closes #1336
   * add support for `res.json()` to retain previously defined Content-Types. Closes #1349
@@ -2079,12 +2079,12 @@
 3.0.0beta4 / 2012-06-25
 ==================
 
-  * Added `req.auth`
-  * Added `req.range(size)`
+  * Added `shreq.auth`
+  * Added `shreq.range(size)`
   * Added `res.links(obj)`
   * Added `res.send(body, status)` support back for backwards compat
   * Added `.default()` support to `res.format()`
-  * Added 2xx / 304 check to `req.fresh`
+  * Added 2xx / 304 check to `shreq.fresh`
   * Revert "Added + support to the router"
   * Fixed `res.send()` freshness check, respect res.statusCode
 
@@ -2101,8 +2101,8 @@
 ==================
 
   * Added `+` support to the router
-  * Added `req.host`
-  * Changed `req.param()` to check route first
+  * Added `shreq.host`
+  * Changed `shreq.param()` to check route first
   * Update connect dep
 
 3.0.0beta1 / 2012-06-01
@@ -2114,11 +2114,11 @@
 3.0.0alpha5 / 2012-05-30
 ==================
 
-  * Added `req.ip`
+  * Added `shreq.ip`
   * Added `{ signed: true }` option to `res.cookie()`
   * Removed `res.signedCookie()`
-  * Changed: dont reverse `req.ips`
-  * Fixed "trust proxy" setting check for `req.ips`
+  * Changed: dont reverse `shreq.ips`
+  * Fixed "trust proxy" setting check for `shreq.ips`
 
 3.0.0alpha4 / 2012-05-09
 ==================
@@ -2140,7 +2140,7 @@
   * Changed: `res.send()` only set ETag when not previously set
   * Changed connect 2.2.1 dep
   * Changed: `make test` now runs unit / acceptance tests
-  * Fixed req/res proto inheritance
+  * Fixed shreq/res proto inheritance
 
 3.0.0alpha2 / 2012-04-26
 ==================
@@ -2148,7 +2148,7 @@
   * Added `make benchmark` back
   * Added `res.send()` support for `String` objects
   * Added client-side data exposing example
-  * Added `res.header()` and `req.header()` aliases for BC
+  * Added `res.header()` and `shreq.header()` aliases for BC
   * Added `express.createServer()` for BC
   * Perf: memoize parsed urls
   * Perf: connect 2.2.0 dep
@@ -2170,24 +2170,24 @@
   * Added `app.engine()`
   * Added `res.cookie()` JSON cookie support
   * Added "trust proxy" setting
-  * Added `req.subdomains`
-  * Added `req.protocol`
-  * Added `req.secure`
-  * Added `req.path`
-  * Added `req.ips`
-  * Added `req.fresh`
-  * Added `req.stale`
-  * Added comma-delimited / array support for `req.accepts()`
+  * Added `shreq.subdomains`
+  * Added `shreq.protocol`
+  * Added `shreq.secure`
+  * Added `shreq.path`
+  * Added `shreq.ips`
+  * Added `shreq.fresh`
+  * Added `shreq.stale`
+  * Added comma-delimited / array support for `shreq.accepts()`
   * Added debug instrumentation
   * Added `res.set(obj)`
   * Added `res.set(field, value)`
   * Added `res.get(field)`
   * Added `app.get(setting)`. Closes #842
-  * Added `req.acceptsLanguage()`
-  * Added `req.acceptsCharset()`
-  * Added `req.accepted`
-  * Added `req.acceptedLanguages`
-  * Added `req.acceptedCharsets`
+  * Added `shreq.acceptsLanguage()`
+  * Added `shreq.acceptsCharset()`
+  * Added `shreq.accepted`
+  * Added `shreq.acceptedLanguages`
+  * Added `shreq.acceptedCharsets`
   * Added "json replacer" setting
   * Added "json spaces" setting
   * Added X-Forwarded-Proto support to `res.redirect()`. Closes #92
@@ -2204,7 +2204,7 @@
   * Rewrite of all tests with mocha
   * Removed "root" setting
   * Removed `res.redirect('home')` support
-  * Removed `req.notify()`
+  * Removed `shreq.notify()`
   * Removed `app.register()`
   * Removed `app.redirect()`
   * Removed `app.is()`
@@ -2247,7 +2247,7 @@
 2.5.3 / 2011-12-30
 ==================
 
-  * Fixed `req.is()` when a charset is present
+  * Fixed `shreq.is()` when a charset is present
 
 2.5.2 / 2011-12-10
 ==================
@@ -2274,10 +2274,10 @@
 
   * Added mkdirp to express(1). Closes #795
   * Added simple _json-config_ example
-  * Added  shorthand for the parsed request's pathname via `req.path`
+  * Added  shorthand for the parsed request's pathname via `shreq.path`
   * Changed connect dep to 1.7.x to fix npm issue...
   * Fixed `res.redirect()` __HEAD__ support. [reported by xerox]
-  * Fixed `req.flash()`, only escape args
+  * Fixed `shreq.flash()`, only escape args
   * Fixed absolute path checking on windows. Closes #829 [reported by andrewpmckenzie]
 
 2.4.6 / 2011-08-22
@@ -2339,7 +2339,7 @@ Closes #805
 ==================
 
   * \#express is now on freenode! come join!
-  * Added `req.get(field, param)`
+  * Added `shreq.get(field, param)`
   * Added links to Japanese documentation, thanks @hideyukisaito!
   * Added; the `express(1)` generated app outputs the env
   * Added `content-negotiation` example
@@ -2358,7 +2358,7 @@ Closes #805
 2.3.10 / 2011-05-27
 ==================
 
-  * Added `req.route`, exposing the current route
+  * Added `shreq.route`, exposing the current route
   * Added _package.json_ generation support to `express(1)`
   * Fixed call to `app.param()` function for optional params. Closes #682
 
@@ -2477,7 +2477,7 @@ Shaw]
   * Added `<root>/_?<name>` partial lookup support. Closes #447
   * Added `request`, `response`, and `app` local variables
   * Added `settings` local variable, containing the app's settings
-  * Added `req.flash()` exception if `req.session` is not available
+  * Added `shreq.flash()` exception if `shreq.session` is not available
   * Added `res.send(bool)` support (json response)
   * Fixed stylus example for latest version
   * Fixed; wrap try/catch around `res.render()`
@@ -2502,7 +2502,7 @@ Shaw]
   * Fixed `SlowBuffer` support. Closes #584 [reported by tyrda01]
   * Fixed .filename view engine option [reported by drudge]
   * Fixed blog example
-  * Fixed `{req,res}.app` reference when mounting [Ben Weaver]
+  * Fixed `{shreq,res}.app` reference when mounting [Ben Weaver]
 
 2.0.0rc / 2011-03-14
 ==================
@@ -2540,13 +2540,13 @@ Shaw]
 
   * Added HTTPS support
   * Added `res.cookie()` maxAge support
-  * Added `req.header()` _Referrer_ / _Referer_ special-case, either works
+  * Added `shreq.header()` _Referrer_ / _Referer_ special-case, either works
   * Added mount support for `res.redirect()`, now respects the mount-point
   * Added `union()` util, taking place of `merge(clone())` combo
   * Added stylus support to express(1) generated app
   * Added secret to session middleware used in examples and generated app
   * Added `res.local(name, val)` for progressive view locals
-  * Added default param support to `req.param(name, default)`
+  * Added default param support to `shreq.param(name, default)`
   * Added `app.disabled()` and `app.enabled()`
   * Added `app.register()` support for omitting leading ".", either works
   * Added `res.partial()`, using the same interface as `partial()` within a view. Closes #539
@@ -2555,14 +2555,14 @@ Shaw]
   * Added extname with no leading "." support to `res.contentType()`
   * Added `cache views` setting, defaulting to enabled in "production" env
   * Added index file partial resolution, eg: partial('user') may try _views/user/index.jade_.
-  * Added `req.accepts()` support for extensions
+  * Added `shreq.accepts()` support for extensions
   * Changed; `res.download()` and `res.sendfile()` now utilize Connect's
     static file server `connect.static.send()`.
   * Changed; replaced `connect.utils.mime()` with npm _mime_ module
-  * Changed; allow `req.query` to be pre-defined (via middleware or other parent
+  * Changed; allow `shreq.query` to be pre-defined (via middleware or other parent
   * Changed view partial resolution, now relative to parent view
   * Changed view engine signature. no longer `engine.render(str, options, callback)`, now `engine.compile(str, options) -> Function`, the returned function accepts `fn(locals)`.
-  * Fixed `req.param()` bug returning Array.prototype methods. Closes #552
+  * Fixed `shreq.param()` bug returning Array.prototype methods. Closes #552
   * Fixed; using `Stream#pipe()` instead of `sys.pump()` in `res.sendfile()`
   * Fixed; using _qs_ module instead of _querystring_
   * Fixed; strip unsafe chars from jsonp callbacks
@@ -2571,7 +2571,7 @@ Shaw]
 1.0.8 / 2011-03-01
 ==================
 
-  * Allow `req.query` to be pre-defined (via middleware or other parent app)
+  * Allow `shreq.query` to be pre-defined (via middleware or other parent app)
   * "connect": ">= 0.5.0 < 1.0.0". Closes #547
   * Removed the long deprecated __EXPRESS_ENV__ support
 
@@ -2613,7 +2613,7 @@ Shaw]
   * Fixed for middleware stacked via `createServer()`
     previously the `foo` middleware passed to `createServer(foo)`
     would not have access to Express methods such as `res.send()`
-    or props like `req.query` etc.
+    or props like `shreq.query` etc.
 
 1.0.0 / 2010-11-16
 ==================
@@ -2623,7 +2623,7 @@ Shaw]
     give you the _post_ object, providing a meaningful default.
   * Added http status code string representation to `res.redirect()` body
   * Added; `res.redirect()` supporting _text/plain_ and _text/html_ via __Accept__.
-  * Added `req.is()` to aid in content negotiation
+  * Added `shreq.is()` to aid in content negotiation
   * Added partial local inheritance [suggested by masylum]. Closes #102
     providing access to parent template locals.
   * Added _-s, --session[s]_ flag to express(1) to add session related middleware
@@ -2709,7 +2709,7 @@ Shaw]
     development env never caches, production always caches.
 
   * Removed _param_ in route callbacks, signature is now
-    simply (req, res, next), previously (req, res, params, next).
+    simply (shreq, res, next), previously (shreq, res, params, next).
     Use _req.params_ for path captures, _req.query_ for GET params.
 
   * Fixed "home" setting

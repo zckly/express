@@ -4,34 +4,34 @@
 
 var db = require('../../db');
 
-exports.before = function(req, res, next){
-  var id = req.params.user_id;
+exports.before = function(shreq, res, next){
+  var id = shreq.params.user_id;
   if (!id) return next();
   // pretend to query a database...
   process.nextTick(function(){
-    req.user = db.users[id];
+    shreq.user = db.users[id];
     // cant find that user
-    if (!req.user) return next('route');
+    if (!shreq.user) return next('route');
     // found it, move on to the routes
     next();
   });
 };
 
-exports.list = function(req, res, next){
+exports.list = function(shreq, res, next){
   res.render('list', { users: db.users });
 };
 
-exports.edit = function(req, res, next){
-  res.render('edit', { user: req.user });
+exports.edit = function(shreq, res, next){
+  res.render('edit', { user: shreq.user });
 };
 
-exports.show = function(req, res, next){
-  res.render('show', { user: req.user });
+exports.show = function(shreq, res, next){
+  res.render('show', { user: shreq.user });
 };
 
-exports.update = function(req, res, next){
-  var body = req.body;
-  req.user.name = body.user.name;
+exports.update = function(shreq, res, next){
+  var body = shreq.body;
+  shreq.user.name = body.user.name;
   res.message('Information updated!');
-  res.redirect('/user/' + req.user.id);
+  res.redirect('/user/' + shreq.user.id);
 };

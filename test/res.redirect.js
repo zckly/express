@@ -8,7 +8,7 @@ describe('res', function(){
     it('should default to a 302 redirect', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.redirect('http://google.com');
       });
 
@@ -23,7 +23,7 @@ describe('res', function(){
     it('should set the response status', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.redirect(303, 'http://google.com');
       });
 
@@ -41,7 +41,7 @@ describe('res', function(){
     it('should set the response status', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.redirect('http://google.com', 303);
       });
 
@@ -59,7 +59,7 @@ describe('res', function(){
     it('should ignore the body', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.redirect('http://google.com');
       });
 
@@ -77,7 +77,7 @@ describe('res', function(){
     it('should respond with html', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.redirect('http://google.com');
       });
 
@@ -92,7 +92,7 @@ describe('res', function(){
     it('should escape the url', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.redirect('<lame>');
       });
 
@@ -108,7 +108,7 @@ describe('res', function(){
     it('should include the redirect type', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.redirect(301, 'http://google.com');
       });
 
@@ -125,7 +125,7 @@ describe('res', function(){
     it('should respond with text', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.redirect('http://google.com');
       });
 
@@ -140,7 +140,7 @@ describe('res', function(){
     it('should encode the url', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.redirect('http://example.com/?param=<script>alert("hax");</script>');
       });
 
@@ -156,7 +156,7 @@ describe('res', function(){
     it('should include the redirect type', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.redirect(301, 'http://google.com');
       });
 
@@ -173,7 +173,7 @@ describe('res', function(){
     it('should respond with an empty body', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.redirect('http://google.com');
       });
 

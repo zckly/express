@@ -29,8 +29,8 @@ describe('exports', function(){
     express.request.foo = function(){ return 'bar'; };
     var app = express();
 
-    app.use(function(req, res, next){
-      res.end(req.foo());
+    app.use(function(shreq, res, next){
+      res.end(shreq.foo());
     });
 
     request(app)
@@ -42,7 +42,7 @@ describe('exports', function(){
     express.response.foo = function(){ this.send('bar'); };
     var app = express();
 
-    app.use(function(req, res, next){
+    app.use(function(shreq, res, next){
       res.foo();
     });
 

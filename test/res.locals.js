@@ -7,7 +7,7 @@ describe('res', function(){
     it('should be empty by default', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         Object.keys(res.locals).should.eql([]);
         res.end();
       });
@@ -24,12 +24,12 @@ describe('res', function(){
 
     app.use(blog);
 
-    blog.use(function(req, res, next){
+    blog.use(function(shreq, res, next){
       res.locals.foo = 'bar';
       next();
     });
 
-    app.use(function(req, res){
+    app.use(function(shreq, res){
       res.locals.foo.should.equal('bar');
       res.end();
     });

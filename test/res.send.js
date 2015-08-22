@@ -9,7 +9,7 @@ describe('res', function(){
     it('should set body to ""', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.send(null);
       });
 
@@ -24,7 +24,7 @@ describe('res', function(){
     it('should set body to ""', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.send(undefined);
       });
 
@@ -38,7 +38,7 @@ describe('res', function(){
     it('should set .statusCode', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.send(201).should.equal(res);
       });
 
@@ -53,7 +53,7 @@ describe('res', function(){
     it('should set .statusCode and body', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.send(201, 'Created :)');
       });
 
@@ -68,7 +68,7 @@ describe('res', function(){
     it('should be supported for backwards compat', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.send('Bad!', 400);
       });
 
@@ -83,7 +83,7 @@ describe('res', function(){
     it('should send number as json', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.send(200, 0.123);
       });
 
@@ -98,7 +98,7 @@ describe('res', function(){
     it('should send as html', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.send('<p>hey</p>');
       });
 
@@ -115,7 +115,7 @@ describe('res', function(){
     it('should set ETag', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         var str = Array(1000).join('-');
         res.send(str);
       });
@@ -129,7 +129,7 @@ describe('res', function(){
     it('should not override Content-Type', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.set('Content-Type', 'text/plain').send('hey');
       });
 
@@ -142,7 +142,7 @@ describe('res', function(){
     it('should override charset in Content-Type', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.set('Content-Type', 'text/plain; charset=iso-8859-1').send('hey');
       });
 
@@ -155,7 +155,7 @@ describe('res', function(){
     it('should keep charset in Content-Type for Buffers', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.set('Content-Type', 'text/plain; charset=iso-8859-1').send(new Buffer('hi'));
       });
 
@@ -170,7 +170,7 @@ describe('res', function(){
     it('should send as octet-stream', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.send(new Buffer('hello'));
       });
 
@@ -187,7 +187,7 @@ describe('res', function(){
     it('should set ETag', function (done) {
       var app = express();
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         var str = Array(1000).join('-');
         res.send(new Buffer(str));
       });
@@ -201,7 +201,7 @@ describe('res', function(){
     it('should not override Content-Type', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.set('Content-Type', 'text/plain').send(new Buffer('hey'));
       });
 
@@ -220,7 +220,7 @@ describe('res', function(){
     it('should send as application/json', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.send({ name: 'tobi' });
       });
 
@@ -235,7 +235,7 @@ describe('res', function(){
     it('should ignore the body', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.send('yay');
       });
 
@@ -249,7 +249,7 @@ describe('res', function(){
     it('should strip Content-* fields, Transfer-Encoding field, and body', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.status(204).set('Transfer-Encoding', 'chunked').send('foo');
       });
 
@@ -269,7 +269,7 @@ describe('res', function(){
     it('should strip Content-* fields, Transfer-Encoding field, and body', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.status(304).set('Transfer-Encoding', 'chunked').send('foo');
       });
 
@@ -289,7 +289,7 @@ describe('res', function(){
     var app = express();
     var etag = '"asdf"';
 
-    app.use(function(req, res, next){
+    app.use(function(shreq, res, next){
       res.set('ETag', etag);
       res.send('hey');
     });
@@ -304,7 +304,7 @@ describe('res', function(){
     var app = express();
     var etag = '"asdf"';
 
-    app.use(function(req, res){
+    app.use(function(shreq, res){
       var str = Array(1000).join('-');
       res.set('ETag', etag);
       res.send(str);
@@ -320,7 +320,7 @@ describe('res', function(){
     var app = express();
     var etag = '"asdf"';
 
-    app.use(function(req, res, next){
+    app.use(function(shreq, res, next){
       res.status(500);
       res.set('ETag', etag);
       res.send('hey');
@@ -336,7 +336,7 @@ describe('res', function(){
   it('should not support jsonp callbacks', function(done){
     var app = express();
 
-    app.use(function(req, res){
+    app.use(function(shreq, res){
       res.send({ foo: 'bar' });
     });
 
@@ -350,7 +350,7 @@ describe('res', function(){
       it('should send ETag', function (done) {
         var app = express();
 
-        app.use(function (req, res) {
+        app.use(function (shreq, res) {
           res.send('kajdslfkasdf');
         });
 
@@ -368,7 +368,7 @@ describe('res', function(){
         it('should send ETag in response to ' + method.toUpperCase() + ' request', function (done) {
           var app = express();
 
-          app[method]('/', function (req, res) {
+          app[method]('/', function (shreq, res) {
             res.send('kajdslfkasdf');
           });
 
@@ -382,7 +382,7 @@ describe('res', function(){
       it('should send ETag for empty string response', function (done) {
         var app = express();
 
-        app.use(function (req, res) {
+        app.use(function (shreq, res) {
           res.send('');
         });
 
@@ -397,7 +397,7 @@ describe('res', function(){
       it('should send ETag for long response', function (done) {
         var app = express();
 
-        app.use(function (req, res) {
+        app.use(function (shreq, res) {
           var str = Array(1000).join('-');
           res.send(str);
         });
@@ -413,7 +413,7 @@ describe('res', function(){
       it('should not override ETag when manually set', function (done) {
         var app = express();
 
-        app.use(function (req, res) {
+        app.use(function (shreq, res) {
           res.set('etag', '"asdf"');
           res.send(200);
         });
@@ -429,7 +429,7 @@ describe('res', function(){
       it('should not send ETag for res.send()', function (done) {
         var app = express();
 
-        app.use(function (req, res) {
+        app.use(function (shreq, res) {
           res.send();
         });
 
@@ -446,7 +446,7 @@ describe('res', function(){
       it('should send no ETag', function (done) {
         var app = express();
 
-        app.use(function (req, res) {
+        app.use(function (shreq, res) {
           var str = Array(1000).join('-');
           res.send(str);
         });
@@ -464,7 +464,7 @@ describe('res', function(){
 
         app.disable('etag');
 
-        app.use(function (req, res) {
+        app.use(function (shreq, res) {
           res.set('etag', '"asdf"');
           res.send(200);
         });
@@ -482,7 +482,7 @@ describe('res', function(){
 
         app.set('etag', 'strong');
 
-        app.use(function (req, res) {
+        app.use(function (shreq, res) {
           res.send('hello, world!');
         });
 
@@ -499,7 +499,7 @@ describe('res', function(){
 
         app.set('etag', 'weak');
 
-        app.use(function (req, res) {
+        app.use(function (shreq, res) {
           res.send('hello, world!');
         });
 
@@ -522,7 +522,7 @@ describe('res', function(){
           return '"custom"';
         });
 
-        app.use(function (req, res) {
+        app.use(function (shreq, res) {
           res.send('hello, world!');
         });
 
@@ -539,7 +539,7 @@ describe('res', function(){
           return undefined;
         });
 
-        app.use(function (req, res) {
+        app.use(function (shreq, res) {
           res.send('hello, world!');
         });
 

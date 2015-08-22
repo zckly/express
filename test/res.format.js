@@ -6,7 +6,7 @@ var express = require('../')
 
 var app1 = express();
 
-app1.use(function(req, res, next){
+app1.use(function(shreq, res, next){
   res.format({
     'text/plain': function(){
       res.send('hey');
@@ -17,7 +17,7 @@ app1.use(function(req, res, next){
     },
 
     'application/json': function(a, b, c){
-      assert(req == a);
+      assert(shreq == a);
       assert(res == b);
       assert(next == c);
       res.send({ message: 'hey' });
@@ -25,14 +25,14 @@ app1.use(function(req, res, next){
   });
 });
 
-app1.use(function(err, req, res, next){
+app1.use(function(err, shreq, res, next){
   if (!err.types) throw err;
   res.send(err.status, 'Supports: ' + err.types.join(', '));
 })
 
 var app2 = express();
 
-app2.use(function(req, res, next){
+app2.use(function(shreq, res, next){
   res.format({
     text: function(){ res.send('hey') },
     html: function(){ res.send('<p>hey</p>') },
@@ -40,13 +40,13 @@ app2.use(function(req, res, next){
   });
 });
 
-app2.use(function(err, req, res, next){
+app2.use(function(err, shreq, res, next){
   res.send(err.status, 'Supports: ' + err.types.join(', '));
 })
 
 var app3 = express();
 
-app3.use(function(req, res, next){
+app3.use(function(shreq, res, next){
   res.format({
     text: function(){ res.send('hey') },
     default: function(){ res.send('default') }
@@ -55,7 +55,7 @@ app3.use(function(req, res, next){
 
 var app4 = express();
 
-app4.get('/', function(req, res, next){
+app4.get('/', function(shreq, res, next){
   res.format({
     text: function(){ res.send('hey') },
     html: function(){ res.send('<p>hey</p>') },
@@ -63,13 +63,13 @@ app4.get('/', function(req, res, next){
   });
 });
 
-app4.use(function(err, req, res, next){
+app4.use(function(err, shreq, res, next){
   res.send(err.status, 'Supports: ' + err.types.join(', '));
 })
 
 var app5 = express();
 
-app5.use(function (req, res, next) {
+app5.use(function (shreq, res, next) {
   res.format({
     default: function () { res.send('hey') }
   });
@@ -88,7 +88,7 @@ describe('res', function(){
     describe('with parameters', function(){
       var app = express();
 
-      app.use(function(req, res, next){
+      app.use(function(shreq, res, next){
         res.format({
           'text/plain; charset=utf-8': function(){ res.send('hey') },
           'text/html; foo=bar; bar=baz': function(){ res.send('<p>hey</p>') },
@@ -96,7 +96,7 @@ describe('res', function(){
         });
       });
 
-      app.use(function(err, req, res, next){
+      app.use(function(err, shreq, res, next){
         res.send(err.status, 'Supports: ' + err.types.join(', '));
       });
 
@@ -127,7 +127,7 @@ describe('res', function(){
       var app = express();
       var router = express.Router();
 
-      router.get('/', function(req, res, next){
+      router.get('/', function(shreq, res, next){
         res.format({
           text: function(){ res.send('hey') },
           html: function(){ res.send('<p>hey</p>') },
@@ -135,7 +135,7 @@ describe('res', function(){
         });
       });
 
-      router.use(function(err, req, res, next){
+      router.use(function(err, shreq, res, next){
         res.send(err.status, 'Supports: ' + err.types.join(', '));
       })
 

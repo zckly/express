@@ -11,7 +11,7 @@ describe('app', function(){
         this.send(str.toUpperCase());
       };
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.shout('hey');
       });
 
@@ -32,7 +32,7 @@ describe('app', function(){
         this.send(str);
       };
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.shout('hey');
       });
 

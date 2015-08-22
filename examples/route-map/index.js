@@ -26,26 +26,26 @@ app.map = function(a, route){
 };
 
 var users = {
-  list: function(req, res){
+  list: function(shreq, res){
     res.send('user list');
   },
 
-  get: function(req, res){
-    res.send('user ' + req.params.uid);
+  get: function(shreq, res){
+    res.send('user ' + shreq.params.uid);
   },
 
-  delete: function(req, res){
+  delete: function(shreq, res){
     res.send('delete users');
   }
 };
 
 var pets = {
-  list: function(req, res){
-    res.send('user ' + req.params.uid + '\'s pets');
+  list: function(shreq, res){
+    res.send('user ' + shreq.params.uid + '\'s pets');
   },
 
-  delete: function(req, res){
-    res.send('delete ' + req.params.uid + '\'s pet ' + req.params.pid);
+  delete: function(shreq, res){
+    res.send('delete ' + shreq.params.uid + '\'s pet ' + shreq.params.pid);
   }
 };
 

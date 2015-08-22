@@ -20,7 +20,7 @@ function ferrets(user) {
 // in order to expose the "count"
 // and "users" locals
 
-app.get('/', function(req, res, next){
+app.get('/', function(shreq, res, next){
   User.count(function(err, count){
     if (err) return next(err);
     User.all(function(err, users){
@@ -42,27 +42,27 @@ app.get('/', function(req, res, next){
 // the variables available
 // on the request object
 
-function count(req, res, next) {
+function count(shreq, res, next) {
   User.count(function(err, count){
     if (err) return next(err);
-    req.count = count;
+    shreq.count = count;
     next();
   })
 }
 
-function users(req, res, next) {
+function users(shreq, res, next) {
   User.all(function(err, users){
     if (err) return next(err);
-    req.users = users;
+    shreq.users = users;
     next();
   })
 }
 
-app.get('/middleware', count, users, function(req, res, next){
+app.get('/middleware', count, users, function(shreq, res, next){
   res.render('user', {
     title: 'Users',
-    count: req.count,
-    users: req.users.filter(ferrets)
+    count: shreq.count,
+    users: shreq.users.filter(ferrets)
   });
 });
 
@@ -78,9 +78,9 @@ app.get('/middleware', count, users, function(req, res, next){
 // the users in the middleware, which
 // may not be ideal for our application.
 // so in that sense the previous example
-// is more flexible with `req.users`.
+// is more flexible with `shreq.users`.
 
-function count2(req, res, next) {
+function count2(shreq, res, next) {
   User.count(function(err, count){
     if (err) return next(err);
     res.locals.count = count;
@@ -88,7 +88,7 @@ function count2(req, res, next) {
   })
 }
 
-function users2(req, res, next) {
+function users2(shreq, res, next) {
   User.all(function(err, users){
     if (err) return next(err);
     res.locals.users = users.filter(ferrets);
@@ -96,7 +96,7 @@ function users2(req, res, next) {
   })
 }
 
-app.get('/middleware-locals', count2, users2, function(req, res, next){
+app.get('/middleware-locals', count2, users2, function(shreq, res, next){
   // you can see now how we have much less
   // to pass to res.render(). If we have
   // several routes related to users this
@@ -111,9 +111,9 @@ app.get('/middleware-locals', count2, users2, function(req, res, next){
 
 /*
 
-app.use(function(req, res, next){
-  res.locals.user = req.user;
-  res.locals.sess = req.session;
+app.use(function(shreq, res, next){
+  res.locals.user = shreq.user;
+  res.locals.sess = shreq.session;
   next();
 });
 
@@ -124,9 +124,9 @@ app.use(function(req, res, next){
 
 /*
 
-app.use('/api', function(req, res, next){
-  res.locals.user = req.user;
-  res.locals.sess = req.session;
+app.use('/api', function(shreq, res, next){
+  res.locals.user = shreq.user;
+  res.locals.sess = shreq.session;
   next();
 });
 
@@ -137,9 +137,9 @@ app.use('/api', function(req, res, next){
 
 /*
 
-app.all('/api/*', function(req, res, next){
-  res.locals.user = req.user;
-  res.locals.sess = req.session;
+app.all('/api/*', function(shreq, res, next){
+  res.locals.user = shreq.user;
+  res.locals.sess = shreq.session;
   next();
 });
 

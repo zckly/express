@@ -21,7 +21,7 @@ describe('app', function(){
       var blog = express()
         , app = express();
 
-      blog.get('/blog', function(req, res){
+      blog.get('/blog', function(shreq, res){
         res.end('blog');
       });
 
@@ -37,11 +37,11 @@ describe('app', function(){
         , forum = express()
         , app = express();
 
-      blog.get('/', function(req, res){
+      blog.get('/', function(shreq, res){
         res.end('blog');
       });
 
-      forum.get('/', function(req, res){
+      forum.get('/', function(shreq, res){
         res.end('forum');
       });
 
@@ -69,7 +69,7 @@ describe('app', function(){
       var blog = express()
         , app = express();
 
-      blog.get('/', function(req, res){
+      blog.get('/', function(shreq, res){
         res.end('success');
       });
 
@@ -86,17 +86,17 @@ describe('app', function(){
         , other = express()
         , app = express();
 
-      function fn1(req, res, next) {
+      function fn1(shreq, res, next) {
         res.setHeader('x-fn-1', 'hit');
         next();
       }
 
-      function fn2(req, res, next) {
+      function fn2(shreq, res, next) {
         res.setHeader('x-fn-2', 'hit');
         next();
       }
 
-      blog.get('/', function(req, res){
+      blog.get('/', function(shreq, res){
         res.end('success');
       });
 
@@ -123,17 +123,17 @@ describe('app', function(){
     it('should accept multiple arguments', function (done) {
       var app = express();
 
-      function fn1(req, res, next) {
+      function fn1(shreq, res, next) {
         res.setHeader('x-fn-1', 'hit');
         next();
       }
 
-      function fn2(req, res, next) {
+      function fn2(shreq, res, next) {
         res.setHeader('x-fn-2', 'hit');
         next();
       }
 
-      app.use(fn1, fn2, function fn3(req, res) {
+      app.use(fn1, fn2, function fn3(shreq, res) {
         res.setHeader('x-fn-3', 'hit');
         res.end();
       });
@@ -150,8 +150,8 @@ describe('app', function(){
       var app = express();
       var cb = after(3, done);
 
-      app.use(function (req, res) {
-        res.send('saw ' + req.method + ' ' + req.url);
+      app.use(function (shreq, res) {
+        res.send('saw ' + shreq.method + ' ' + shreq.url);
       });
 
       request(app)
@@ -170,17 +170,17 @@ describe('app', function(){
     it('should accept array of middleware', function (done) {
       var app = express();
 
-      function fn1(req, res, next) {
+      function fn1(shreq, res, next) {
         res.setHeader('x-fn-1', 'hit');
         next();
       }
 
-      function fn2(req, res, next) {
+      function fn2(shreq, res, next) {
         res.setHeader('x-fn-2', 'hit');
         next();
       }
 
-      function fn3(req, res, next) {
+      function fn3(shreq, res, next) {
         res.setHeader('x-fn-3', 'hit');
         res.end();
       }
@@ -198,17 +198,17 @@ describe('app', function(){
     it('should accept multiple arrays of middleware', function (done) {
       var app = express();
 
-      function fn1(req, res, next) {
+      function fn1(shreq, res, next) {
         res.setHeader('x-fn-1', 'hit');
         next();
       }
 
-      function fn2(req, res, next) {
+      function fn2(shreq, res, next) {
         res.setHeader('x-fn-2', 'hit');
         next();
       }
 
-      function fn3(req, res, next) {
+      function fn3(shreq, res, next) {
         res.setHeader('x-fn-3', 'hit');
         res.end();
       }
@@ -226,17 +226,17 @@ describe('app', function(){
     it('should accept nested arrays of middleware', function (done) {
       var app = express();
 
-      function fn1(req, res, next) {
+      function fn1(shreq, res, next) {
         res.setHeader('x-fn-1', 'hit');
         next();
       }
 
-      function fn2(req, res, next) {
+      function fn2(shreq, res, next) {
         res.setHeader('x-fn-2', 'hit');
         next();
       }
 
-      function fn3(req, res, next) {
+      function fn3(shreq, res, next) {
         res.setHeader('x-fn-3', 'hit');
         res.end();
       }
@@ -266,11 +266,11 @@ describe('app', function(){
       app.use.bind(app, '/', new Date()).should.throw(/requires middleware function.*Date/);
     })
 
-    it('should strip path from req.url', function (done) {
+    it('should strip path from shreq.url', function (done) {
       var app = express();
 
-      app.use('/foo', function (req, res) {
-        res.send('saw ' + req.method + ' ' + req.url);
+      app.use('/foo', function (shreq, res) {
+        res.send('saw ' + shreq.method + ' ' + shreq.url);
       });
 
       request(app)
@@ -281,17 +281,17 @@ describe('app', function(){
     it('should accept multiple arguments', function (done) {
       var app = express();
 
-      function fn1(req, res, next) {
+      function fn1(shreq, res, next) {
         res.setHeader('x-fn-1', 'hit');
         next();
       }
 
-      function fn2(req, res, next) {
+      function fn2(shreq, res, next) {
         res.setHeader('x-fn-2', 'hit');
         next();
       }
 
-      app.use('/foo', fn1, fn2, function fn3(req, res) {
+      app.use('/foo', fn1, fn2, function fn3(shreq, res) {
         res.setHeader('x-fn-3', 'hit');
         res.end();
       });
@@ -308,8 +308,8 @@ describe('app', function(){
       var app = express();
       var cb = after(3, done);
 
-      app.use('/foo', function (req, res) {
-        res.send('saw ' + req.method + ' ' + req.url);
+      app.use('/foo', function (shreq, res) {
+        res.send('saw ' + shreq.method + ' ' + shreq.url);
       });
 
       request(app)
@@ -329,8 +329,8 @@ describe('app', function(){
       var app = express();
       var cb = after(3, done);
 
-      app.use('/foo/', function (req, res) {
-        res.send('saw ' + req.method + ' ' + req.url);
+      app.use('/foo/', function (shreq, res) {
+        res.send('saw ' + shreq.method + ' ' + shreq.url);
       });
 
       request(app)
@@ -349,17 +349,17 @@ describe('app', function(){
     it('should accept array of middleware', function (done) {
       var app = express();
 
-      function fn1(req, res, next) {
+      function fn1(shreq, res, next) {
         res.setHeader('x-fn-1', 'hit');
         next();
       }
 
-      function fn2(req, res, next) {
+      function fn2(shreq, res, next) {
         res.setHeader('x-fn-2', 'hit');
         next();
       }
 
-      function fn3(req, res, next) {
+      function fn3(shreq, res, next) {
         res.setHeader('x-fn-3', 'hit');
         res.end();
       }
@@ -377,17 +377,17 @@ describe('app', function(){
     it('should accept multiple arrays of middleware', function (done) {
       var app = express();
 
-      function fn1(req, res, next) {
+      function fn1(shreq, res, next) {
         res.setHeader('x-fn-1', 'hit');
         next();
       }
 
-      function fn2(req, res, next) {
+      function fn2(shreq, res, next) {
         res.setHeader('x-fn-2', 'hit');
         next();
       }
 
-      function fn3(req, res, next) {
+      function fn3(shreq, res, next) {
         res.setHeader('x-fn-3', 'hit');
         res.end();
       }
@@ -405,17 +405,17 @@ describe('app', function(){
     it('should accept nested arrays of middleware', function (done) {
       var app = express();
 
-      function fn1(req, res, next) {
+      function fn1(shreq, res, next) {
         res.setHeader('x-fn-1', 'hit');
         next();
       }
 
-      function fn2(req, res, next) {
+      function fn2(shreq, res, next) {
         res.setHeader('x-fn-2', 'hit');
         next();
       }
 
-      function fn3(req, res, next) {
+      function fn3(shreq, res, next) {
         res.setHeader('x-fn-3', 'hit');
         res.end();
       }
@@ -434,8 +434,8 @@ describe('app', function(){
       var app = express();
       var cb = after(3, done);
 
-      app.use(['/foo/', '/bar'], function (req, res) {
-        res.send('saw ' + req.method + ' ' + req.url + ' through ' + req.originalUrl);
+      app.use(['/foo/', '/bar'], function (shreq, res) {
+        res.send('saw ' + shreq.method + ' ' + shreq.url + ' through ' + shreq.originalUrl);
       });
 
       request(app)
@@ -455,19 +455,19 @@ describe('app', function(){
       var app = express();
       var cb = after(2, done);
 
-      function fn1(req, res, next) {
+      function fn1(shreq, res, next) {
         res.setHeader('x-fn-1', 'hit');
         next();
       }
 
-      function fn2(req, res, next) {
+      function fn2(shreq, res, next) {
         res.setHeader('x-fn-2', 'hit');
         next();
       }
 
-      function fn3(req, res, next) {
+      function fn3(shreq, res, next) {
         res.setHeader('x-fn-3', 'hit');
-        res.send('saw ' + req.method + ' ' + req.url + ' through ' + req.originalUrl);
+        res.send('saw ' + shreq.method + ' ' + shreq.url + ' through ' + shreq.originalUrl);
       }
 
       app.use(['/foo/', '/bar'], [[fn1], fn2], [fn3]);
@@ -491,8 +491,8 @@ describe('app', function(){
       var app = express();
       var cb = after(4, done);
 
-      app.use(/^\/[a-z]oo/, function (req, res) {
-        res.send('saw ' + req.method + ' ' + req.url + ' through ' + req.originalUrl);
+      app.use(/^\/[a-z]oo/, function (shreq, res) {
+        res.send('saw ' + shreq.method + ' ' + shreq.url + ' through ' + shreq.originalUrl);
       });
 
       request(app)
@@ -515,8 +515,8 @@ describe('app', function(){
     it('should support empty string path', function (done) {
       var app = express();
 
-      app.use('', function (req, res) {
-        res.send('saw ' + req.method + ' ' + req.url + ' through ' + req.originalUrl);
+      app.use('', function (shreq, res) {
+        res.send('saw ' + shreq.method + ' ' + shreq.url + ' through ' + shreq.originalUrl);
       });
 
       request(app)

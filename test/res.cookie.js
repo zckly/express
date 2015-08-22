@@ -10,7 +10,7 @@ describe('res', function(){
     it('should generate a JSON cookie', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.cookie('user', { name: 'tobi' }).end();
       });
 
@@ -28,7 +28,7 @@ describe('res', function(){
     it('should set a cookie', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.cookie('name', 'tobi').end();
       });
 
@@ -44,7 +44,7 @@ describe('res', function(){
     it('should allow multiple calls', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.cookie('name', 'tobi');
         res.cookie('age', 1);
         res.cookie('gender', '?');
@@ -65,7 +65,7 @@ describe('res', function(){
     it('should set params', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.cookie('name', 'tobi', { httpOnly: true, secure: true });
         res.end();
       });
@@ -83,7 +83,7 @@ describe('res', function(){
       it('should set relative expires', function(done){
         var app = express();
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.cookie('name', 'tobi', { maxAge: 1000 });
           res.end();
         });
@@ -99,7 +99,7 @@ describe('res', function(){
       it('should set max-age', function(done){
         var app = express();
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.cookie('name', 'tobi', { maxAge: 1000 });
           res.end();
         });
@@ -115,7 +115,7 @@ describe('res', function(){
         var options = { maxAge: 1000 };
         var optionsCopy = merge({}, options);
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.cookie('name', 'tobi', options)
           res.end();
         });
@@ -135,7 +135,7 @@ describe('res', function(){
 
         app.use(cookieParser('foo bar baz'));
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.cookie('user', { name: 'tobi' }, { signed: true }).end();
         });
 
@@ -156,7 +156,7 @@ describe('res', function(){
 
         app.use(cookieParser('foo bar baz'));
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.cookie('name', 'tobi', { signed: true }).end();
         });
 

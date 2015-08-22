@@ -20,11 +20,11 @@ online = online(db);
 var app = express();
 
 // activity tracking, in this case using
-// the UA string, you would use req.user.id etc
+// the UA string, you would use shreq.user.id etc
 
-app.use(function(req, res, next){
+app.use(function(shreq, res, next){
   // fire-and-forget
-  online.add(req.headers['user-agent']);
+  online.add(shreq.headers['user-agent']);
   next();
 });
 
@@ -42,7 +42,7 @@ function list(ids) {
  * GET users online.
  */
 
-app.get('/', function(req, res, next){
+app.get('/', function(shreq, res, next){
   online.last(5, function(err, ids){
     if (err) return next(err);
     res.send('<p>Users online: ' + ids.length + '</p>' + list(ids));

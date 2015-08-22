@@ -25,9 +25,9 @@ function createError(status, message) {
 
 // Convert :to and :from to integers
 
-app.param(['to', 'from'], function(req, res, next, num, name){
-  req.params[name] = parseInt(num, 10);
-  if( isNaN(req.params[name]) ){
+app.param(['to', 'from'], function(shreq, res, next, num, name){
+  shreq.params[name] = parseInt(num, 10);
+  if( isNaN(shreq.params[name]) ){
     next(createError(400, 'failed to parseInt '+num));
   } else {
     next();
@@ -36,8 +36,8 @@ app.param(['to', 'from'], function(req, res, next, num, name){
 
 // Load user by id
 
-app.param('user', function(req, res, next, id){
-  if (req.user = users[id]) {
+app.param('user', function(shreq, res, next, id){
+  if (shreq.user = users[id]) {
     next();
   } else {
     next(createError(404, 'failed to find user'));
@@ -48,7 +48,7 @@ app.param('user', function(req, res, next, id){
  * GET index.
  */
 
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   res.send('Visit /user/0 or /users/0-2');
 });
 
@@ -56,17 +56,17 @@ app.get('/', function(req, res){
  * GET :user.
  */
 
-app.get('/user/:user', function(req, res, next){
-  res.send('user ' + req.user.name);
+app.get('/user/:user', function(shreq, res, next){
+  res.send('user ' + shreq.user.name);
 });
 
 /**
  * GET users :from - :to.
  */
 
-app.get('/users/:from-:to', function(req, res, next){
-  var from = req.params.from;
-  var to = req.params.to;
+app.get('/users/:from-:to', function(shreq, res, next){
+  var from = shreq.params.from;
+  var to = shreq.params.to;
   var names = users.map(function(user){ return user.name; });
   res.send('users ' + names.slice(from, to).join(', '));
 });

@@ -20,7 +20,7 @@ while (n--) {
 
 app.use(logger('dev'));
 
-app.get('/', function(req, res){
+app.get('/', function(shreq, res){
   res.render('pets', { pets: pets });
 });
 

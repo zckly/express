@@ -9,7 +9,7 @@ describe('res', function(){
     it('should transfer as an attachment', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.download('test/fixtures/user.html');
       });
 
@@ -25,7 +25,7 @@ describe('res', function(){
     it('should provide an alternate filename', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.download('test/fixtures/user.html', 'document');
       });
 
@@ -42,7 +42,7 @@ describe('res', function(){
       var app = express();
       var cb = after(2, done);
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.download('test/fixtures/user.html', cb);
       });
 
@@ -59,7 +59,7 @@ describe('res', function(){
       var app = express();
       var cb = after(2, done);
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.download('test/fixtures/user.html', 'document', done);
       });
 
@@ -75,7 +75,7 @@ describe('res', function(){
     it('should invoke the callback', function(done){
       var app = express();
 
-      app.use(function (req, res, next) {
+      app.use(function (shreq, res, next) {
         res.download('test/fixtures/foobar.html', function(err){
           if (!err) return next(new Error('expected error'));
           res.send('got ' + err.status + ' ' + err.code);
@@ -91,7 +91,7 @@ describe('res', function(){
       var app = express()
         , calls = 0;
 
-      app.use(function (req, res, next) {
+      app.use(function (shreq, res, next) {
         res.download('test/fixtures/foobar.html', function(err){
           if (!err) return next(new Error('expected error'));
           res.end('failed');

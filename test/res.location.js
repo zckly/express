@@ -7,7 +7,7 @@ describe('res', function(){
     it('should set the header', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.location('http://google.com').end();
       });
 

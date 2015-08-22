@@ -2,14 +2,14 @@
 var express = require('../')
   , request = require('supertest');
 
-describe('req', function(){
+describe('shreq', function(){
   describe('.secure', function(){
     describe('when X-Forwarded-Proto is missing', function(){
       it('should return false when http', function(done){
         var app = express();
 
-        app.get('/', function(req, res){
-          res.send(req.secure ? 'yes' : 'no');
+        app.get('/', function(shreq, res){
+          res.send(shreq.secure ? 'yes' : 'no');
         });
 
         request(app)
@@ -24,8 +24,8 @@ describe('req', function(){
       it('should return false when http', function(done){
         var app = express();
 
-        app.get('/', function(req, res){
-          res.send(req.secure ? 'yes' : 'no');
+        app.get('/', function(shreq, res){
+          res.send(shreq.secure ? 'yes' : 'no');
         });
 
         request(app)
@@ -39,8 +39,8 @@ describe('req', function(){
 
         app.enable('trust proxy');
 
-        app.get('/', function(req, res){
-          res.send(req.secure ? 'yes' : 'no');
+        app.get('/', function(shreq, res){
+          res.send(shreq.secure ? 'yes' : 'no');
         });
 
         request(app)
@@ -54,8 +54,8 @@ describe('req', function(){
 
         app.enable('trust proxy');
 
-        app.get('/', function(req, res){
-          res.send(req.secure ? 'yes' : 'no');
+        app.get('/', function(shreq, res){
+          res.send(shreq.secure ? 'yes' : 'no');
         });
 
         request(app)
@@ -69,8 +69,8 @@ describe('req', function(){
 
         app.enable('trust proxy');
 
-        app.get('/', function(req, res){
-          res.send(req.secure ? 'yes' : 'no');
+        app.get('/', function(shreq, res){
+          res.send(shreq.secure ? 'yes' : 'no');
         });
 
         request(app)
@@ -85,8 +85,8 @@ describe('req', function(){
 
           app.set('trust proxy', 1);
 
-          app.get('/', function (req, res) {
-            res.send(req.secure ? 'yes' : 'no');
+          app.get('/', function (shreq, res) {
+            res.send(shreq.secure ? 'yes' : 'no');
           });
 
           request(app)

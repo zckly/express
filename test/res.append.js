@@ -12,12 +12,12 @@ describe('res', function () {
     it('should append multiple headers', function (done) {
       var app = express()
 
-      app.use(function (req, res, next) {
+      app.use(function (shreq, res, next) {
         res.append('Link', '<http://localhost/>')
         next()
       })
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.append('Link', '<http://localhost:80/>')
         res.end()
       })
@@ -30,7 +30,7 @@ describe('res', function () {
     it('should accept array of values', function (done) {
       var app = express()
 
-      app.use(function (req, res, next) {
+      app.use(function (shreq, res, next) {
         res.append('Set-Cookie', ['foo=bar', 'fizz=buzz'])
         res.end()
       })
@@ -46,13 +46,13 @@ describe('res', function () {
     it('should get reset by res.set(field, val)', function (done) {
       var app = express()
 
-      app.use(function (req, res, next) {
+      app.use(function (shreq, res, next) {
         res.append('Link', '<http://localhost/>')
         res.append('Link', '<http://localhost:80/>')
         next()
       })
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.set('Link', '<http://127.0.0.1/>')
         res.end()
       });
@@ -65,12 +65,12 @@ describe('res', function () {
     it('should work with res.set(field, val) first', function (done) {
       var app = express()
 
-      app.use(function (req, res, next) {
+      app.use(function (shreq, res, next) {
         res.set('Link', '<http://localhost/>')
         next()
       })
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.append('Link', '<http://localhost:80/>')
         res.end()
       })
@@ -83,12 +83,12 @@ describe('res', function () {
     it('should work with cookies', function (done) {
       var app = express()
 
-      app.use(function (req, res, next) {
+      app.use(function (shreq, res, next) {
         res.cookie('foo', 'bar')
         next()
       })
 
-      app.use(function (req, res) {
+      app.use(function (shreq, res) {
         res.append('Set-Cookie', 'bar=baz')
         res.end()
       })

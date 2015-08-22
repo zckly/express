@@ -7,16 +7,16 @@ var express = require('../../');
 
 var app = module.exports = express();
 
-// add req.session cookie support
+// add shreq.session cookie support
 app.use(cookieSession({ secret: 'manny is cool' }));
 
 // do something with the session
 app.use(count);
 
 // custom middleware
-function count(req, res) {
-  req.session.count = req.session.count || 0;
-  var n = req.session.count++;
+function count(shreq, res) {
+  shreq.session.count = shreq.session.count || 0;
+  var n = shreq.session.count++;
   res.send('viewed ' + n + ' times\n');
 }
 

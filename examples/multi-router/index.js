@@ -5,7 +5,7 @@ var app = module.exports = express();
 app.use('/api/v1', require('./controllers/api_v1'));
 app.use('/api/v2', require('./controllers/api_v2'));
 
-app.get('/', function(req, res) {
+app.get('/', function(shreq, res) {
   res.send('Hello form root route.');
 });
 

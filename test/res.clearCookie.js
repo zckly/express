@@ -7,7 +7,7 @@ describe('res', function(){
     it('should set a cookie passed expiry', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.clearCookie('sid').end();
       });
 
@@ -25,7 +25,7 @@ describe('res', function(){
     it('should set the given params', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.clearCookie('sid', { path: '/admin' }).end();
       });
 

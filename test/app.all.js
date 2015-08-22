@@ -6,8 +6,8 @@ describe('app.all()', function(){
   it('should add a router per method', function(done){
     var app = express();
 
-    app.all('/tobi', function(req, res){
-      res.end(req.method);
+    app.all('/tobi', function(shreq, res){
+      res.end(shreq.method);
     });
 
     request(app)
@@ -23,7 +23,7 @@ describe('app.all()', function(){
     var app = express()
       , n = 0;
 
-    app.all('/*', function(req, res, next){
+    app.all('/*', function(shreq, res, next){
       if (n++) return done(new Error('DELETE called several times'));
       next();
     });

@@ -10,7 +10,7 @@ describe('res', function(){
 
       app.locals.user = { name: 'tobi' };
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.render(__dirname + '/fixtures/user.tmpl');
       });
 
@@ -25,7 +25,7 @@ describe('res', function(){
       app.locals.user = { name: 'tobi' };
       app.set('view engine', 'tmpl');
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.render(__dirname + '/fixtures/user');
       });
 
@@ -39,7 +39,7 @@ describe('res', function(){
 
       app.locals.user = { name: 'tobi' };
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.render(__dirname + '/fixtures/user');
       });
 
@@ -54,7 +54,7 @@ describe('res', function(){
       app.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.render('user.tmpl');
       });
 
@@ -69,7 +69,7 @@ describe('res', function(){
       app.set('views', __dirname + '/fixtures');
       app.locals.name = 'tobi';
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.render('name.tmpl');
       });
 
@@ -84,7 +84,7 @@ describe('res', function(){
       app.set('views', __dirname + '/fixtures');
       app.set('view engine', 'tmpl');
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.render('blog/post');
       });
 
@@ -99,11 +99,11 @@ describe('res', function(){
 
         app.set('views', __dirname + '/fixtures');
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.render('user.tmpl');
         });
 
-        app.use(function(err, req, res, next){
+        app.use(function(err, shreq, res, next){
           res.end(err.message);
         });
 
@@ -120,7 +120,7 @@ describe('res', function(){
         app.set('view engine', 'tmpl');
         app.set('views', __dirname + '/fixtures');
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.render('email');
         });
 
@@ -136,7 +136,7 @@ describe('res', function(){
 
         app.set('views', __dirname + '/fixtures/default_layout');
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.render('user.tmpl', { user: { name: 'tobi' } });
         });
 
@@ -152,7 +152,7 @@ describe('res', function(){
 
           app.set('views', views);
 
-          app.use(function(req, res){
+          app.use(function(shreq, res){
             res.render('user.tmpl', { user: { name: 'tobi' } });
           });
 
@@ -167,7 +167,7 @@ describe('res', function(){
 
           app.set('views', views);
 
-          app.use(function(req, res){
+          app.use(function(shreq, res){
             res.render('name.tmpl', { name: 'tobi' });
           });
 
@@ -187,7 +187,7 @@ describe('res', function(){
 
       var user = { name: 'tobi' };
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.render('user.tmpl', { user: user });
       });
 
@@ -202,7 +202,7 @@ describe('res', function(){
       app.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.render('user.tmpl');
       });
 
@@ -216,7 +216,7 @@ describe('res', function(){
 
       app.set('views', __dirname + '/fixtures');
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.locals.user = { name: 'tobi' };
         res.render('user.tmpl');
       });
@@ -232,7 +232,7 @@ describe('res', function(){
       app.set('views', __dirname + '/fixtures');
       app.locals.user = { name: 'tobi' };
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.locals.user = { name: 'jane' };
         res.render('user.tmpl', {});
       });
@@ -248,7 +248,7 @@ describe('res', function(){
       app.set('views', __dirname + '/fixtures');
       var jane = { name: 'jane' };
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.locals.user = { name: 'tobi' };
         res.render('user.tmpl', { user: jane });
       });
@@ -265,7 +265,7 @@ describe('res', function(){
       app.locals.user = { name: 'tobi' };
       var jane = { name: 'jane' };
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.render('user.tmpl', { user: jane });
       });
 
@@ -281,7 +281,7 @@ describe('res', function(){
 
       app.set('views', __dirname + '/fixtures');
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         var tobi = { name: 'tobi' };
         res.render('user.tmpl', { user: tobi }, function (err, html) {
           html = html.replace('tobi', 'loki');
@@ -301,7 +301,7 @@ describe('res', function(){
 
       app.set('views', __dirname + '/fixtures');
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.locals.user = { name: 'tobi' };
         res.render('user.tmpl', function (err, html) {
           html = html.replace('tobi', 'loki');
@@ -320,7 +320,7 @@ describe('res', function(){
 
         app.set('views', __dirname + '/fixtures');
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.render('user.tmpl', function (err) {
             res.end(err.message);
           });

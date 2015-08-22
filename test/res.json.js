@@ -8,7 +8,7 @@ describe('res', function(){
     it('should not support jsonp callbacks', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.json({ foo: 'bar' });
       });
 
@@ -20,7 +20,7 @@ describe('res', function(){
     it('should not override previous Content-Types', function(done){
       var app = express();
 
-      app.get('/', function(req, res){
+      app.get('/', function(shreq, res){
         res.type('application/vnd.example+json');
         res.json({ hello: 'world' });
       });
@@ -35,7 +35,7 @@ describe('res', function(){
       it('should respond with json for null', function(done){
         var app = express();
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.json(null);
         });
 
@@ -48,7 +48,7 @@ describe('res', function(){
       it('should respond with json for Number', function(done){
         var app = express();
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.json(300);
         });
 
@@ -61,7 +61,7 @@ describe('res', function(){
       it('should respond with json for String', function(done){
         var app = express();
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.json('str');
         });
 
@@ -76,7 +76,7 @@ describe('res', function(){
       it('should respond with json', function(done){
         var app = express();
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.json(['foo', 'bar', 'baz']);
         });
 
@@ -91,7 +91,7 @@ describe('res', function(){
       it('should respond with json', function(done){
         var app = express();
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.json({ name: 'tobi' });
         });
 
@@ -112,7 +112,7 @@ describe('res', function(){
             : val;
         });
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.json({ name: 'tobi', _id: 12345 });
         });
 
@@ -134,7 +134,7 @@ describe('res', function(){
 
         app.set('json spaces', 2);
 
-        app.use(function(req, res){
+        app.use(function(shreq, res){
           res.json({ name: 'tobi', age: 2 });
         });
 
@@ -150,7 +150,7 @@ describe('res', function(){
     it('should respond with json and set the .statusCode', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.json(201, { id: 1 });
       });
 
@@ -165,7 +165,7 @@ describe('res', function(){
     it('should respond with json and set the .statusCode for backwards compat', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.json({ id: 1 }, 201);
       });
 
@@ -178,7 +178,7 @@ describe('res', function(){
     it('should use status as second number for backwards compat', function(done){
       var app = express();
 
-      app.use(function(req, res){
+      app.use(function(shreq, res){
         res.json(200, 201);
       });
 
